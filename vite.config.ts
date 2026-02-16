@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/adam-website/',  // Add this line - use your actual repo name
   clearScreen: false,
   plugins: [
     react(),
