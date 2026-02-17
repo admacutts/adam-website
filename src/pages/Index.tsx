@@ -98,7 +98,7 @@ const artworks: Artwork[] = [
     year: "2024",
     medium: "earthenware, terra sigillata, soda ash based laundry detergent",
     description: "container with a three part lid, made entirely from 2mm clay sheets.",
-    images: [project7Image1, project7Image2, project7Image3, project7Image4, project7Image5]
+    images: [project7Image1, project7Image2, project7Image5, project7Image4,]
   },
   {
     id: "6",
@@ -121,7 +121,7 @@ const artworks: Artwork[] = [
   {
     id: "4",
     number: "04",
-    title: "Project",
+    title: "Land Boat",
     year: "2023",
     medium: "earthenware",
     description: "Description of project four.",
@@ -130,7 +130,7 @@ const artworks: Artwork[] = [
   {
     id: "3",
     number: "03",
-    title: "Stele Vase With Blue",
+    title: "Stack",
     year: "2023",
     medium: "earthenware, glaze",
     description: "Description of project three.",
@@ -149,7 +149,7 @@ const artworks: Artwork[] = [
   {
     id: "1",
     number: "01",
-    title: "Amoeba Wrestling",
+    title: "Dancing Jug",
     year: "2018",
     medium: "various stoneware and glaze works",
     description: "with Noah Tavlin",
@@ -158,7 +158,7 @@ const artworks: Artwork[] = [
   {
     id: "0",
     number: "00",
-    title: "First Project",
+    title: "Amoeba Wrestling",
     year: "2018",
     medium: "Stoneware, oxides, glaze",
     description: "Your oldest project description goes here. This appears at the bottom of the list.",
