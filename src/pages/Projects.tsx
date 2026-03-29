@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import incidentalProjectionVimeoThumb2 from "../assets/projects/2022_2_RESEARCH_Incidental Projection/THUMBNAIL FOR VIDEO LINK 2.jpg";
 
@@ -50,14 +50,36 @@ const projectVimeoByFolderId: Record<string, ProjectVimeoClip[]> = {
 
 // Edit this map to add description text per project folder.
 // Key = folder name inside `src/assets/projects/`.
+// Use blank lines between paragraphs. Wrap a word in ~tilde~ for italics.
 const projectDescriptions: Record<string, string> = {
-  // Keys must match folder names exactly, e.g.:
-  // "2022_1_ARCH_Site Seeing": "…",
-  // "2022_2_RESEARCH_Incidental Projection": "…",
-  // "2023_1_ARCH_Mayo Library": "…",
-  // "2023_2_ARCH_Citygroup Stoop": "…",
-  // "2023_3_RESEARCH_LIC Site Study": "…",
+  "2023_2_ARCH_Citygroup Stoop": `With Marta Elliot
+
+Some sort of imprint has distorted the Stoop. The condensation from the A/C above is collected and sprayed around the area. Moss grows in the creases between steps, and there are frog sounds coming from somewhere nearby…
+
+The Poots has been further imprinted by some ~being~. The condensation from the A/C above is collected and sprayed around the area. Moss grows all around to soften the landing, and there are frog sounds coming from somewhere nearby…`,
 };
+
+/** Paragraph breaks = blank lines; ~word~ → italic (for modal copy). */
+function projectDescriptionBlocks(text: string) {
+  const paragraphs = text.trim().split(/\n\n+/).map((block, i) => {
+    const segments = block.split(/~([^~]+)~/g);
+    return (
+      <p
+        key={i}
+        className={`text-sm leading-relaxed ${i === 0 ? "mt-3" : "mt-2"}`}
+      >
+        {segments.map((seg, j) =>
+          j % 2 === 1 ? (
+            <em key={j}>{seg}</em>
+          ) : (
+            <Fragment key={j}>{seg}</Fragment>
+          )
+        )}
+      </p>
+    );
+  });
+  return <>{paragraphs}</>;
+}
 
 // Only include images directly inside each project folder (ignore nested folders + videos).
 const projectImageUrls = import.meta.glob(
@@ -376,11 +398,9 @@ function Projects() {
                   <p className="text-xs text-gray-600 mt-1">
                     {galleryProject.year}
                   </p>
-                  {galleryProject.description ? (
-                    <p className="text-sm mt-3 leading-relaxed">
-                      {galleryProject.description}
-                    </p>
-                  ) : null}
+                  {galleryProject.description.trim()
+                    ? projectDescriptionBlocks(galleryProject.description)
+                    : null}
                 </div>
 
                 {detailSrc ? (
