@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+/**
+ * Thin, low-contrast horizontal scrollbar — matches light gray table rules.
+ * Firefox: thin + custom colors. WebKit: 3px thumb, no track fill.
+ */
+.minimal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(209 213 219) transparent;
+}
+
+.minimal-scrollbar::-webkit-scrollbar {
+  height: 3px;
+}
+
+.minimal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.minimal-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(209 213 219);
+  border-radius: 9999px;
+}
+
+.minimal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(189 193 199);
+}

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Layout from "../components/Layout";
 import studio1 from '../assets/studio/studio1.jpg';
 import studio2 from '../assets/studio/studio2.jpg';
 import studio3 from '../assets/studio/studio3.jpg';
@@ -24,8 +23,6 @@ import studio20 from '../assets/studio/studio20.jpg';
 import studio21 from '../assets/studio/studio21.jpg';
 import studio22 from '../assets/studio/studio22.jpg';
 import studio23 from '../assets/studio/studio23.jpg';
-import studio24 from '../assets/studio/studio24.jpg';
-import studio25 from '../assets/studio/studio25.jpg';
 import studio26 from '../assets/studio/studio26.jpg';
 import studio27 from '../assets/studio/studio27.jpg';
 import studio28 from '../assets/studio/studio28.jpg';
@@ -57,6 +54,11 @@ import studio53 from '../assets/studio/studio53.jpg';
 import studio54 from '../assets/studio/studio54.jpg';
 import studio55 from '../assets/studio/studio55.jpg';
 import studio56 from '../assets/studio/studio56.jpg';
+import studio57 from '../assets/studio/studio57.jpg';
+import studio58 from '../assets/studio/studio58.jpg';
+import studio59 from '../assets/studio/studio59.jpg';
+import studio60 from '../assets/studio/studio60.jpg';
+import studio61 from '../assets/studio/studio61.jpg';
 
 
 const studioItems = [
@@ -80,7 +82,7 @@ const studioItems = [
     content: {
       type: "photos",
       description: "",
-      images: [studio56, studio55, studio54, studio53, studio52, studio51, studio50, studio49, studio48, studio47, studio46, studio45, studio44, studio43, studio42, studio41, studio40, studio39, studio38, studio37, studio36, studio35, studio34, studio33, studio32, studio31, studio30, studio29, studio28, studio26, studio27, studio23, studio22,studio21, studio20, studio19, studio18, studio17, studio16, studio15, studio14, studio13, studio12, studio11, studio10, studio9, studio8, studio7, studio6, studio5, studio4, studio3, studio2, studio1]
+      images: [studio61, studio60, studio59, studio58, studio57, studio56, studio55, studio54, studio53, studio52, studio51, studio50, studio49, studio48, studio47, studio46, studio45, studio44, studio43, studio42, studio41, studio40, studio39, studio38, studio37, studio36, studio35, studio34, studio33, studio32, studio31, studio30, studio29, studio28, studio26, studio27, studio23, studio22,studio21, studio20, studio19, studio18, studio17, studio16, studio15, studio14, studio13, studio12, studio11, studio10, studio9, studio8, studio7, studio6, studio5, studio4, studio3, studio2, studio1]
     }
   },
   {
@@ -89,7 +91,7 @@ const studioItems = [
     title: "CV",
     content: {
       type: "download",
-      description: "Download curriculum vitae",
+      description: "",
       filename: "Adam_Cutts_CV.pdf"
     }
   }
@@ -97,6 +99,7 @@ const studioItems = [
 
 function Studio() {
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const currentYear = new Date().getFullYear();
   // Find the marginalia item for default display
   const marginaliaItem = studioItems.find(item => item.id === "marginalia");
 
@@ -105,55 +108,46 @@ function Studio() {
   };
 
   return (
-    <div className="min-h-screen bg-white font-mono text-black">
+    <div className="min-h-screen bg-white font-mono text-black text-sm">
       {/* Header section with constrained width */}
-      <div className="max-w-2xl px-6 py-8">
+      <div className="max-w-2xl px-6 py-6">
         {/* Artist name and email */}
-        <div className="space-y-6">
-          <h1 className="text-base font-normal">Adam Cutts</h1>
-          <p className="text-base">adamcutts . a @ gmail.com</p>
+        <div className="space-y-4">
+          <h1 className="text-sm font-normal">Adam Cutts</h1>
+          <Link
+            to="/"
+            className="hover:underline text-blue-600 visited:text-purple-600"
+          >
+            Home
+          </Link>
+          <p className="text-sm">adamcutts . a @ gmail.com</p>
         </div>
 
         {/* Navigation links */}
-        <nav className="mt-8">
-          <ul className="space-y-3 text-base">
+        <nav className="mt-6">
+          <ul className="space-y-2 text-sm">
             <li>
-              <Link 
-                to="/" 
+              <Link
+                to="/works"
                 className="hover:underline text-blue-600 visited:text-purple-600"
               >
                 Works
               </Link>
             </li>
             <li>
-              <span className="text-base">Studio</span>
+              <span>Studio</span>
+            </li>
+            <li>
+              <Link
+                to="/projects"
+                className="hover:underline text-blue-600 visited:text-purple-600"
+              >
+                Projects
+              </Link>
             </li>
           </ul>
         </nav>
       </div>
-
-      {/* Default Marginalia Gallery - always visible */}
-      {marginaliaItem && marginaliaItem.content.type === 'photos' && (
-        <div className="py-6 border-b border-gray-200">
-          <div className="mt-6 overflow-x-auto">
-            <div className="flex space-x-4 pb-4 px-6" style={{ width: 'max-content' }}>
-              {marginaliaItem.content.images.map((imgSrc, idx) => (
-                <img
-                  key={idx}
-                  src={imgSrc}
-                  alt={`Studio photo ${idx + 1}`}
-                  className="w-full max-w-2xl h-[500px] object-contain border border-none"
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Scroll hint */}
-          <div className="px-6">
-            <p className="text-sm text-gray-500 italic">Scroll horizontally →</p>
-          </div>
-        </div>
-      )}
 
       {/* Full-width table section */}
       <div className="space-y-0">
@@ -161,74 +155,73 @@ function Studio() {
           <div key={item.id}>
             {/* Table row */}
             <div className="flex border-b border-gray-200 px-6">
-              {/* Letter column */}
-              <div className="w-16 py-3 pr-6 text-gray-600 font-mono">
-                {item.letter}
-              </div>
-              
               {/* Title column - clickable */}
-              <div className="flex-1 py-3 pr-6">
+              <div className="flex-1 py-2 pr-4 min-w-0">
                 <button
                   onClick={() => toggleExpanded(item.id)}
-                  className="text-left w-full hover:underline text-blue-600 visited:text-purple-600 text-base"
+                  className="text-left w-full hover:underline text-blue-600 visited:text-purple-600 text-sm"
                 >
                   {item.title}
                 </button>
               </div>
 
               {/* Plus sign indicator */}
-              <div className="w-8 py-3 text-gray-400 text-base">
+              <div className="w-8 py-2 text-gray-400 text-sm shrink-0">
                 {expandedItem === item.id ? '−' : '+'}
               </div>
             </div>
 
             {/* Expanded content */}
             {expandedItem === item.id && (
-              <div className="pl-16 py-6 border-b border-gray-200 px-6">
-                <div className="space-y-4 text-gray-700">
+              <div className="py-4 border-b border-gray-200 px-6">
+                <div className="space-y-3 text-gray-700 text-sm">
                   {item.content.type === 'bio' && (
-                    <div className="space-y-6">
+                    <div className="space-y-4">
                       <div>
-                        <h3 className="text-base font-medium mb-3">bio</h3>
+                        <h3 className="text-sm font-medium mb-2">bio</h3>
                         <p className="leading-relaxed">{item.content.bio}</p>
                       </div>
                       <div>
-                        <h3 className="text-base font-medium mb-3">statement</h3>
+                        <h3 className="text-sm font-medium mb-2">statement</h3>
                         <p className="leading-relaxed">{item.content.statement}</p>
-                      
+
                       </div>
                     </div>
                   )}
-                  
+
                   {item.content.type === 'photos' && (
-                    <div className="space-y-4">
-                      <p className="text-base font-medium">{item.content.description}</p>
-                      
+                    <div className="space-y-3">
+                      {item.content.description ? (
+                        <p className="font-medium">{item.content.description}</p>
+                      ) : null}
+
                       {/* Horizontal scrolling photo gallery - newest first */}
-                      <div className="mt-6 overflow-x-auto">
-                        <div className="flex space-x-4 pb-4" style={{ width: 'max-content' }}>
-                          {item.content.images.map((imgSrc, idx) => (
+                      <div className="mt-4 overflow-x-auto minimal-scrollbar">
+                        <div className="flex space-x-3 pb-2" style={{ width: 'max-content' }}>
+                          {(item.content.images ?? []).map((imgSrc, idx) => (
                             <img
                               key={idx}
                               src={imgSrc}
                               alt={`Studio photo ${idx + 1}`}
-                              className="w-full max-w-2xl h-[500px] object-contain border border-none"
+                              className="h-[280px] w-auto max-w-[min(90vw,420px)] object-contain shrink-0"
                             />
                           ))}
                         </div>
                       </div>
-                      
+
                       {/* Scroll hint */}
-                      <p className="text-sm text-gray-500 italic">Scroll horizontally to view older photos →</p>
+                      <p className="text-xs text-gray-500 italic">Scroll horizontally to view older photos →</p>
                     </div>
                   )}
-                  
+
                   {item.content.type === 'download' && (
-                    <div className="space-y-4">
-                      <p className="text-base font-medium">{item.content.description}</p>
-                      <a 
-                        href="#" 
-                        className="inline-block text-blue-600 hover:underline text-base"
+                    <div className="space-y-3">
+                      {item.content.description ? (
+                        <p className="font-medium">{item.content.description}</p>
+                      ) : null}
+                      <a
+                        href="#"
+                        className="inline-block text-blue-600 hover:underline text-sm"
                       >
                         Download {item.content.filename}
                       </a>
@@ -241,11 +234,35 @@ function Studio() {
         ))}
       </div>
 
+      {/* Default Marginalia Gallery - always visible */}
+      {marginaliaItem && marginaliaItem.content.type === 'photos' && (
+        <div className="py-4 border-b border-gray-200">
+          <div className="mt-2 overflow-x-auto minimal-scrollbar">
+            <div className="flex space-x-3 pb-2 px-6" style={{ width: 'max-content' }}>
+              {(marginaliaItem.content.images ?? []).map((imgSrc, idx) => (
+                <img
+                  key={idx}
+                  src={imgSrc}
+                  alt={`Studio photo ${idx + 1}`}
+                  className="h-[280px] w-auto max-w-[min(90vw,420px)] object-contain shrink-0"
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Scroll hint */}
+          <div className="px-6">
+            <p className="text-xs text-gray-500 italic">Scroll horizontally →</p>
+          </div>
+        </div>
+      )}
+
+      
       {/* Footer with constrained width */}
       <div className="max-w-2xl px-6">
-        <footer className="mt-16 pt-8 border-t border-gray-300">
-          <p className="text-sm text-gray-600">
-            © 2024 Adam Cutts
+        <footer className="mt-12 pt-6 border-t border-gray-300">
+          <p className="text-xs text-gray-600">
+            © {currentYear} Adam Cutts
           </p>
         </footer>
       </div>

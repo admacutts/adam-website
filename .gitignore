@@ -9,6 +9,11 @@ lerna-debug.log*
 
 node_modules
 dist
+
+# Source videos belong in Vimeo / external storage — GitHub rejects >100MB files.
+*.m4v
+*.mov
+*.mp4
 dist-ssr
 *.local
 
