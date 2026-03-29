@@ -59,6 +59,14 @@ import studio57 from '../assets/studio/studio57.jpg';
 import studio58 from '../assets/studio/studio58.jpg';
 import studio59 from '../assets/studio/studio59.jpg';
 import studio60 from '../assets/studio/studio60.jpg';
+import studio61 from '../assets/studio/studio61.jpg';
+import studio62 from '../assets/studio/studio62.jpg';
+import studio63 from '../assets/studio/studio63.jpg';
+import studio64 from '../assets/studio/studio64.jpg';
+import studio65 from '../assets/studio/studio65.jpg';
+import studio66 from '../assets/studio/studio66.jpg';
+import studio67 from '../assets/studio/studio67.jpg';
+import studio68 from '../assets/studio/studio68.jpg';
 
 import project0Image1 from '../assets/works/P00/8102.300_1.jpg';
 import project0Image2 from '../assets/works/P00/8102.300_2.jpg';
@@ -205,7 +213,7 @@ const artworks: Artwork[] = [
 
 // ============================================
 // PASTE YOUR STUDIO IMAGES ARRAY HERE
-const studioImages = [studio1, studio2, studio3, studio4, studio5, studio6, studio7, studio8, studio9, studio10, studio11, studio12, studio13, studio14, studio15, studio16, studio17, studio18, studio19, studio20, studio21, studio22, studio23, studio26, studio27, studio28, studio29, studio30, studio31, studio32, studio33, studio34, studio35, studio36, studio37, studio38, studio39, studio40, studio41, studio42, studio43, studio44, studio45, studio46, studio47, studio48, studio49, studio50, studio51, studio52, studio53, studio54, studio55, studio56, studio57, studio58, studio59, studio60];
+const studioImages = [studio1, studio2, studio3, studio4, studio5, studio6, studio7, studio8, studio9, studio10, studio11, studio12, studio13, studio14, studio15, studio16, studio17, studio18, studio19, studio20, studio21, studio22, studio23, studio26, studio27, studio28, studio29, studio30, studio31, studio32, studio33, studio34, studio35, studio36, studio37, studio38, studio39, studio40, studio41, studio42, studio43, studio44, studio45, studio46, studio47, studio48, studio49, studio50, studio51, studio52, studio53, studio54, studio55, studio56, studio57, studio58, studio59, studio60, studio61, studio62, studio63, studio64, studio65, studio66, studio67, studio68];
 // ============================================
 
 
@@ -215,7 +223,18 @@ function Index({ showWorksTable = false }: IndexProps) {
   const [detailWork, setDetailWork] = useState<Artwork | null>(null);
   const [detailImageIndex, setDetailImageIndex] = useState(0);
   const [visitedWorks, setVisitedWorks] = useState<Set<string>>(new Set());
+  /** Years in this set are collapsed; default empty = all years expanded. */
+  const [collapsedYears, setCollapsedYears] = useState<Set<string>>(new Set());
   const currentYear = new Date().getFullYear();
+
+  const toggleYearCollapsed = (year: string) => {
+    setCollapsedYears((prev) => {
+      const next = new Set(prev);
+      if (next.has(year)) next.delete(year);
+      else next.add(year);
+      return next;
+    });
+  };
 
   const openDetail = (work: Artwork, imageIndex = 0) => {
     setDetailWork(work);
@@ -439,69 +458,88 @@ function Index({ showWorksTable = false }: IndexProps) {
       {/* Full-width table section grouped by year */}
       {showWorksTable && (
         <div className="space-y-0 mt-8">
-          {sortedYears.map((year) => (
+          {sortedYears.map((year) => {
+            const expanded = !collapsedYears.has(year);
+            return (
             <div key={year}>
-              {/* Year header row */}
-              <div className="flex border-b border-gray-200 px-6">
-                {/* Year as clickable link - indented like navigation */}
-                <div className="flex-1 py-2 pr-6 pl-0">
-                  <div className="text-left text-sm text-black">{year}</div>
-                </div>
-
-                {/* Plus/minus sign on the right */}
-                <div className="w-8 py-2 text-gray-400 text-sm" />
-              </div>
+              {/* Year header row — click to collapse / expand this year */}
+              <button
+                type="button"
+                className="flex w-full border-b border-gray-200 px-6 text-left items-stretch hover:bg-gray-50/80 transition-colors"
+                onClick={() => toggleYearCollapsed(year)}
+                aria-expanded={expanded}
+                aria-controls={`works-year-${year}`}
+                id={`works-year-heading-${year}`}
+              >
+                <span className="flex-1 py-2 pr-6 pl-0 text-sm text-black">
+                  {year}
+                </span>
+                <span
+                  className="w-8 py-2 text-gray-400 text-sm tabular-nums flex items-center justify-end select-none"
+                  aria-hidden
+                >
+                  {expanded ? "−" : "+"}
+                </span>
+              </button>
 
               {/* Projects for this year */}
-              {worksByYear[year].map((work) => (
-                <div
-                  key={work.id}
-                  className="flex border-b border-gray-200 px-6 items-start gap-2 sm:gap-3"
-                >
-                  <div className="w-[min(46%,260px)] shrink-0 py-2 pr-2 min-w-0">
-                    <button
-                      type="button"
-                      onClick={() => openDetail(work, 0)}
-                      className={`text-left w-full hover:underline text-sm leading-snug ${
-                        visitedWorks.has(work.id) ? "text-purple-600" : "text-blue-600"
-                      }`}
-                    >
-                      {work.title}
-                    </button>
-                  </div>
+              <div
+                id={`works-year-${year}`}
+                role="region"
+                aria-labelledby={`works-year-heading-${year}`}
+                hidden={!expanded}
+              >
+                {worksByYear[year].map((work) => (
+                  <div
+                    key={work.id}
+                    className="flex border-b border-gray-200 px-6 items-start gap-2 sm:gap-3"
+                  >
+                    <div className="w-[min(46%,260px)] shrink-0 py-2 pr-2 min-w-0">
+                      <button
+                        type="button"
+                        onClick={() => openDetail(work, 0)}
+                        className={`text-left w-full hover:underline text-sm leading-snug ${
+                          visitedWorks.has(work.id) ? "text-purple-600" : "text-blue-600"
+                        }`}
+                      >
+                        {work.title}
+                      </button>
+                    </div>
 
-                  <div className="flex-1 min-w-0 py-2 overflow-x-auto minimal-scrollbar">
-                    {work.images && work.images.length > 0 ? (
-                      <div className="flex flex-nowrap gap-[6px] items-center justify-start">
-                        {work.images.map((image, index) => (
-                          <button
-                            key={index}
-                            type="button"
-                            onClick={() => openDetail(work, index)}
-                            className="shrink-0 h-16 w-[88px] flex items-center justify-center p-0 bg-transparent border-0 rounded-none shadow-none outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset overflow-hidden"
-                            aria-label={`Open ${work.title} — image ${index + 1}`}
-                          >
-                            <img
-                              src={image}
-                              alt=""
-                            className="h-full w-full object-cover object-center block border-0 select-none pointer-events-none"
-                              draggable={false}
-                            />
-                          </button>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="flex flex-nowrap gap-[6px] justify-start items-center">
-                        <div className="h-16 w-[88px] shrink-0 bg-gray-100 flex items-center justify-center text-[10px] text-gray-400">
-                          —
+                    <div className="flex-1 min-w-0 py-2 overflow-x-auto minimal-scrollbar">
+                      {work.images && work.images.length > 0 ? (
+                        <div className="flex flex-nowrap gap-[6px] items-center justify-start">
+                          {work.images.map((image, index) => (
+                            <button
+                              key={index}
+                              type="button"
+                              onClick={() => openDetail(work, index)}
+                              className="shrink-0 h-16 w-[88px] flex items-center justify-center p-0 bg-transparent border-0 rounded-none shadow-none outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset overflow-hidden"
+                              aria-label={`Open ${work.title} — image ${index + 1}`}
+                            >
+                              <img
+                                src={image}
+                                alt=""
+                                className="h-full w-full object-cover object-center block border-0 select-none pointer-events-none"
+                                draggable={false}
+                              />
+                            </button>
+                          ))}
                         </div>
-                      </div>
-                    )}
+                      ) : (
+                        <div className="flex flex-nowrap gap-[6px] justify-start items-center">
+                          <div className="h-16 w-[88px] shrink-0 bg-gray-100 flex items-center justify-center text-[10px] text-gray-400">
+                            —
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          ))}
+          );
+          })}
         </div>
       )}
 

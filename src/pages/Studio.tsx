@@ -59,6 +59,13 @@ import studio58 from '../assets/studio/studio58.jpg';
 import studio59 from '../assets/studio/studio59.jpg';
 import studio60 from '../assets/studio/studio60.jpg';
 import studio61 from '../assets/studio/studio61.jpg';
+import studio62 from '../assets/studio/studio62.jpg';
+import studio63 from '../assets/studio/studio63.jpg';
+import studio64 from '../assets/studio/studio64.jpg';
+import studio65 from '../assets/studio/studio65.jpg';
+import studio66 from '../assets/studio/studio66.jpg';
+import studio67 from '../assets/studio/studio67.jpg';
+import studio68 from '../assets/studio/studio68.jpg';
 
 
 const studioItems = [
@@ -82,7 +89,7 @@ const studioItems = [
     content: {
       type: "photos",
       description: "",
-      images: [studio61, studio60, studio59, studio58, studio57, studio56, studio55, studio54, studio53, studio52, studio51, studio50, studio49, studio48, studio47, studio46, studio45, studio44, studio43, studio42, studio41, studio40, studio39, studio38, studio37, studio36, studio35, studio34, studio33, studio32, studio31, studio30, studio29, studio28, studio26, studio27, studio23, studio22,studio21, studio20, studio19, studio18, studio17, studio16, studio15, studio14, studio13, studio12, studio11, studio10, studio9, studio8, studio7, studio6, studio5, studio4, studio3, studio2, studio1]
+      images: [studio68, studio67, studio66, studio65, studio64, studio63, studio62, studio61, studio60, studio59, studio58, studio57, studio56, studio55, studio54, studio53, studio52, studio51, studio50, studio49, studio48, studio47, studio46, studio45, studio44, studio43, studio42, studio41, studio40, studio39, studio38, studio37, studio36, studio35, studio34, studio33, studio32, studio31, studio30, studio29, studio28, studio26, studio27, studio23, studio22, studio21, studio20, studio19, studio18, studio17, studio16, studio15, studio14, studio13, studio12, studio11, studio10, studio9, studio8, studio7, studio6, studio5, studio4, studio3, studio2, studio1]
     }
   },
   {
