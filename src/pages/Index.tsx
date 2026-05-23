@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 // Import studio images for random display
 import studio1 from '../assets/studio/studio1.jpg';
@@ -67,6 +67,28 @@ import studio65 from '../assets/studio/studio65.jpg';
 import studio66 from '../assets/studio/studio66.jpg';
 import studio67 from '../assets/studio/studio67.jpg';
 import studio68 from '../assets/studio/studio68.jpg';
+import studio69 from '../assets/studio/studio69.jpg';
+import studio70 from '../assets/studio/studio70.jpg';
+import studio71 from '../assets/studio/studio71.jpg';
+import studio72 from '../assets/studio/studio72.jpg';
+import studio73 from '../assets/studio/studio73.jpg';
+import studio74 from '../assets/studio/studio74.jpg';
+import studio75 from '../assets/studio/studio75.jpg';
+import studio76 from '../assets/studio/studio76.jpg';
+import studio77 from '../assets/studio/studio77.jpg';
+import studio78 from '../assets/studio/studio78.jpg';
+import studio79 from '../assets/studio/studio79.jpg';
+import studio80 from '../assets/studio/studio80.jpg';
+import studio81 from '../assets/studio/studio81.jpg';
+import studio82 from '../assets/studio/studio82.jpg';
+import studio83 from '../assets/studio/studio83.jpg';
+import studio84 from '../assets/studio/studio84.jpg';
+import studio85 from '../assets/studio/studio85.jpg';
+import studio86 from '../assets/studio/studio86.jpg';
+import studio87 from '../assets/studio/studio87.jpg';
+import studio88 from '../assets/studio/studio88.jpg';
+import studio89 from '../assets/studio/studio89.jpg';
+import studio90 from '../assets/studio/studio90.jpg';
 
 import project0Image1 from '../assets/works/P00/8102.300_1.jpg';
 import project0Image2 from '../assets/works/P00/8102.300_2.jpg';
@@ -102,6 +124,14 @@ import project8Image1 from '../assets/works/P08/4202.901_1.jpg';
 import project8Image2 from '../assets/works/P08/4202.901_2.jpg';
 import project9Image1 from '../assets/works/P09/5202.501_1.jpg';
 import project9Image2 from '../assets/works/P09/5202.501_2.jpg';
+import project9Image3 from '../assets/works/P09/5202.501_3.jpg';
+import project9Image4 from '../assets/works/P09/5202.501_4.jpg';
+import project10Image1 from '../assets/works/P10/5202.521_1.jpg';
+import project11Image1 from '../assets/works/P11/6202.101_1.jpg';
+import project11Image2 from '../assets/works/P11/6202.101_2.jpg';
+import project11Image3 from '../assets/works/P11/6202.101_3.jpg';
+import project11Image4 from '../assets/works/P11/6202.101_4.jpg';
+import project11Image5 from '../assets/works/P11/6202.101_5.jpg';
 
 
 interface Artwork {
@@ -118,13 +148,31 @@ interface Artwork {
 // Sample artwork data - replace with actual portfolio pieces
 const artworks: Artwork[] = [
   {
+    id: "11",
+    number: "11",
+    title: "Foot Bridge",
+    year: "2026",
+    medium: "Earthenware",
+    description: "",
+    images: [project11Image1, project11Image2, project11Image3, project11Image4, project11Image5]
+  },
+  {
+    id: "10",
+    number: "10",
+    title: "Foothill Study Tile",
+    year: "2025",
+    medium: "Stoneware and Terra Sigillata",
+    description: "",
+    images: [project10Image1]
+  },
+  {
     id: "9",
     number: "09",
     title: "Vented Storage with Sign",
     year: "2025",
     medium: "stoneware, soda ash",
     description: "",
-    images: [project9Image1, project9Image2]
+    images: [project9Image1, project9Image2, project9Image3, project9Image4]
   },
   {
     id: "8",
@@ -150,7 +198,7 @@ const artworks: Artwork[] = [
     title: "Enshrining a Tree",
     year: "2023",
     medium: "earthenware, terra sigillata",
-    description: "Description of project six.",
+    description: "",
     images: [project6Image1, project6Image2, project6Image3]
   },
   {
@@ -213,7 +261,7 @@ const artworks: Artwork[] = [
 
 // ============================================
 // PASTE YOUR STUDIO IMAGES ARRAY HERE
-const studioImages = [studio1, studio2, studio3, studio4, studio5, studio6, studio7, studio8, studio9, studio10, studio11, studio12, studio13, studio14, studio15, studio16, studio17, studio18, studio19, studio20, studio21, studio22, studio23, studio26, studio27, studio28, studio29, studio30, studio31, studio32, studio33, studio34, studio35, studio36, studio37, studio38, studio39, studio40, studio41, studio42, studio43, studio44, studio45, studio46, studio47, studio48, studio49, studio50, studio51, studio52, studio53, studio54, studio55, studio56, studio57, studio58, studio59, studio60, studio61, studio62, studio63, studio64, studio65, studio66, studio67, studio68];
+const studioImages = [studio1, studio2, studio3, studio4, studio5, studio6, studio7, studio8, studio9, studio10, studio11, studio12, studio13, studio14, studio15, studio16, studio17, studio18, studio19, studio20, studio21, studio22, studio23, studio26, studio27, studio28, studio29, studio30, studio31, studio32, studio33, studio34, studio35, studio36, studio37, studio38, studio39, studio40, studio41, studio42, studio43, studio44, studio45, studio46, studio47, studio48, studio49, studio50, studio51, studio52, studio53, studio54, studio55, studio56, studio57, studio58, studio59, studio60, studio61, studio62, studio63, studio64, studio65, studio66, studio67, studio68, studio69, studio70, studio71, studio72, studio73, studio74, studio75, studio76, studio77, studio78, studio79, studio80, studio81, studio82, studio83, studio84, studio85, studio86, studio87, studio88, studio89, studio90];
 // ============================================
 
 
@@ -223,18 +271,9 @@ function Index({ showWorksTable = false }: IndexProps) {
   const [detailWork, setDetailWork] = useState<Artwork | null>(null);
   const [detailImageIndex, setDetailImageIndex] = useState(0);
   const [visitedWorks, setVisitedWorks] = useState<Set<string>>(new Set());
-  /** Years in this set are collapsed; default empty = all years expanded. */
-  const [collapsedYears, setCollapsedYears] = useState<Set<string>>(new Set());
+  const [indexBandHeight, setIndexBandHeight] = useState(0);
+  const indexBandRef = useRef<HTMLDivElement>(null);
   const currentYear = new Date().getFullYear();
-
-  const toggleYearCollapsed = (year: string) => {
-    setCollapsedYears((prev) => {
-      const next = new Set(prev);
-      if (next.has(year)) next.delete(year);
-      else next.add(year);
-      return next;
-    });
-  };
 
   const openDetail = (work: Artwork, imageIndex = 0) => {
     setDetailWork(work);
@@ -249,25 +288,21 @@ function Index({ showWorksTable = false }: IndexProps) {
     setDetailWork(null);
   };
 
-  // Group artworks by year
-  const worksByYear = artworks.reduce((acc, work) => {
-    if (!acc[work.year]) {
-      acc[work.year] = [];
-    }
-    acc[work.year].push(work);
-    return acc;
-  }, {} as Record<string, typeof artworks>);
+  const randomStudioImages = useMemo(
+    () => [...studioImages].sort(() => 0.5 - Math.random()).slice(0, 3),
+    []
+  );
 
-  // Sort years in descending order
-  const sortedYears = Object.keys(worksByYear).sort((a, b) => parseInt(b) - parseInt(a));
-
-  // Get 3 random studio images
-  const getRandomStudioImages = () => {
-    const shuffled = [...studioImages].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, 3);
-  };
-
-  const randomStudioImages = getRandomStudioImages();
+  useEffect(() => {
+    if (!showWorksTable) return;
+    const el = indexBandRef.current;
+    if (!el) return;
+    const update = () => setIndexBandHeight(el.offsetHeight);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [showWorksTable]);
 
   useEffect(() => {
     if (!detailWork) return;
@@ -390,161 +425,175 @@ function Index({ showWorksTable = false }: IndexProps) {
         </div>
       )}
 
-      {/* Header section with constrained width */}
-      <div className="max-w-2xl px-6 py-6">
-        {/* Artist name and email */}
-        <div className="space-y-4">
-          <h1 className="text-sm font-normal">Adam Cutts</h1>
-          <Link
-            to="/"
-            className="hover:underline text-blue-600 visited:text-purple-600"
-          >
-            Home
-          </Link>
-          <p className="text-sm">adamcutts . a @ gmail.com</p>
-        </div>
-
-        {/* Three random studio images */}
-        <div className="mt-8">
-          <div className="flex gap-4 items-start">
-            {randomStudioImages.map((img, idx) => (
-              <img
-                key={idx}
-                src={img}
-                alt={`Studio photo ${idx + 1}`}
-                className="h-[110px] object-contain"
-              />
-            ))}
-          </div>
-          
-        {/* Navigation links */}
-        <nav className="mt-6">
-          <ul className="space-y-2 text-sm">
-            <li>
-              {showWorksTable ? (
-                <span>Works</span>
-              ) : (
+      {/* Header — home: E2b centered; works: index band + photos matched to Home→Projects height */}
+      {showWorksTable ? (
+        <div className="px-6 py-6">
+          <h1 className="text-sm font-normal mb-4">Adam Cutts</h1>
+          <div className="grid grid-cols-[auto_1fr] gap-8 items-start">
+            <div ref={indexBandRef} className="shrink-0">
+              <div className="space-y-4">
                 <Link
-                  to="/works"
-                  className="hover:underline text-blue-600 visited:text-purple-600"
+                  to="/"
+                  className="hover:underline text-blue-600 visited:text-purple-600 text-sm"
                 >
-                  Works
+                  Home
                 </Link>
-              )}
-            </li>
-            <li>
-              <Link
-                to="/studio"
-                className="hover:underline text-blue-600 visited:text-purple-600"
-              >
-                Studio
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/projects"
-                className="hover:underline text-blue-600 visited:text-purple-600"
-              >
-                Projects
-              </Link>
-            </li>
-          </ul>
-        </nav>
-
-
+                <p className="text-sm">adamcutts . a @ gmail.com</p>
+              </div>
+              <nav className="mt-6">
+                <ul className="space-y-2 text-sm">
+                  <li><span>Works</span></li>
+                  <li>
+                    <Link
+                      to="/studio"
+                      className="hover:underline text-blue-600 visited:text-purple-600"
+                    >
+                      Studio
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/projects"
+                      className="hover:underline text-blue-600 visited:text-purple-600"
+                    >
+                      Projects
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div
+              className="flex justify-center items-start gap-3 min-w-0"
+              style={indexBandHeight > 0 ? { height: indexBandHeight } : undefined}
+            >
+              {randomStudioImages.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`Studio photo ${idx + 1}`}
+                  className="block w-auto max-w-[100px] object-contain"
+                  style={
+                    indexBandHeight > 0 ? { height: indexBandHeight } : undefined
+                  }
+                />
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-
-      {/* Full-width table section grouped by year */}
-      {showWorksTable && (
-        <div className="space-y-0 mt-8">
-          {sortedYears.map((year) => {
-            const expanded = !collapsedYears.has(year);
-            return (
-            <div key={year}>
-              {/* Year header row — click to collapse / expand this year */}
-              <button
-                type="button"
-                className="flex w-full border-b border-gray-200 px-6 text-left items-stretch hover:bg-gray-50/80 transition-colors"
-                onClick={() => toggleYearCollapsed(year)}
-                aria-expanded={expanded}
-                aria-controls={`works-year-${year}`}
-                id={`works-year-heading-${year}`}
-              >
-                <span className="flex-1 py-2 pr-6 pl-0 text-sm text-black">
-                  {year}
-                </span>
-                <span
-                  className="w-8 py-2 text-gray-400 text-sm tabular-nums flex items-center justify-end select-none"
-                  aria-hidden
-                >
-                  {expanded ? "−" : "+"}
-                </span>
-              </button>
-
-              {/* Projects for this year */}
-              <div
-                id={`works-year-${year}`}
-                role="region"
-                aria-labelledby={`works-year-heading-${year}`}
-                hidden={!expanded}
-              >
-                {worksByYear[year].map((work) => (
-                  <div
-                    key={work.id}
-                    className="flex border-b border-gray-200 px-6 items-start gap-2 sm:gap-3"
+      ) : (
+        <div className="max-w-[420px] mx-auto px-6 py-12 text-center">
+          <div className="flex flex-col items-center gap-3 text-sm">
+            <h1 className="text-sm font-normal">Adam Cutts</h1>
+            <Link
+              to="/"
+              className="hover:underline text-blue-600 visited:text-purple-600"
+            >
+              Home
+            </Link>
+            <p>adamcutts . a @ gmail.com</p>
+          </div>
+          <div className="mt-8">
+            <div className="flex gap-4 items-end justify-center flex-wrap">
+              {randomStudioImages.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`Studio photo ${idx + 1}`}
+                  className="h-[110px] object-contain"
+                />
+              ))}
+            </div>
+            <nav className="mt-6 inline-block text-left">
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <Link
+                    to="/works"
+                    className="hover:underline text-blue-600 visited:text-purple-600"
                   >
-                    <div className="w-[min(46%,260px)] shrink-0 py-2 pr-2 min-w-0">
+                    Works
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/studio"
+                    className="hover:underline text-blue-600 visited:text-purple-600"
+                  >
+                    Studio
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/projects"
+                    className="hover:underline text-blue-600 visited:text-purple-600"
+                  >
+                    Projects
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      )}
+
+      {/* Works — W4 + W4f hybrid: year + title left, single uncropped image */}
+      {showWorksTable && (
+        <div className="px-6 pb-8 mt-8">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2.5">
+            {artworks.map((work) => {
+              const heroImage = work.images?.[0];
+              return (
+                <div
+                  key={work.id}
+                  className="border border-gray-300 bg-white flex flex-col min-h-[140px]"
+                >
+                  <div className="text-[11px] px-2 py-1.5 border-b border-gray-200 bg-gray-50 text-gray-600 text-left">
+                    {work.year}
+                  </div>
+                  <div className="flex flex-1 items-center justify-center p-2 min-h-[104px]">
+                    {heroImage ? (
                       <button
                         type="button"
                         onClick={() => openDetail(work, 0)}
-                        className={`text-left w-full hover:underline text-sm leading-snug ${
-                          visitedWorks.has(work.id) ? "text-purple-600" : "text-blue-600"
-                        }`}
+                        className="p-0 bg-transparent border-0 outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                        aria-label={`Open ${work.title}`}
                       >
-                        {work.title}
+                        <img
+                          src={heroImage}
+                          alt=""
+                          className="h-24 w-auto max-w-full object-contain block select-none"
+                          draggable={false}
+                        />
                       </button>
-                    </div>
-
-                    <div className="flex-1 min-w-0 py-2 overflow-x-auto minimal-scrollbar">
-                      {work.images && work.images.length > 0 ? (
-                        <div className="flex flex-nowrap gap-[6px] items-center justify-start">
-                          {work.images.map((image, index) => (
-                            <button
-                              key={index}
-                              type="button"
-                              onClick={() => openDetail(work, index)}
-                              className="shrink-0 h-16 w-[88px] flex items-center justify-center p-0 bg-transparent border-0 rounded-none shadow-none outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset overflow-hidden"
-                              aria-label={`Open ${work.title} — image ${index + 1}`}
-                            >
-                              <img
-                                src={image}
-                                alt=""
-                                className="h-full w-full object-cover object-center block border-0 select-none pointer-events-none"
-                                draggable={false}
-                              />
-                            </button>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="flex flex-nowrap gap-[6px] justify-start items-center">
-                          <div className="h-16 w-[88px] shrink-0 bg-gray-100 flex items-center justify-center text-[10px] text-gray-400">
-                            —
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    ) : (
+                      <div className="h-24 w-full flex items-center justify-center text-[10px] text-gray-400">
+                        —
+                      </div>
+                    )}
                   </div>
-                ))}
-              </div>
-            </div>
-          );
-          })}
+                  <button
+                    type="button"
+                    onClick={() => openDetail(work, 0)}
+                    className={`text-[11px] px-2 py-1.5 border-t border-gray-200 bg-white text-left w-full hover:underline leading-snug ${
+                      visitedWorks.has(work.id) ? "text-purple-600" : "text-blue-600"
+                    }`}
+                  >
+                    {work.title}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
 
       {/* Footer with constrained width */}
-      <div className="max-w-2xl px-6 pb-6 mt-auto">
+      <div
+        className={
+          showWorksTable
+            ? "max-w-2xl px-6 pb-6 mt-auto"
+            : "max-w-[420px] mx-auto px-6 pb-6 mt-auto text-center"
+        }
+      >
         <footer className="pt-6 border-t border-gray-300">
           <p className="text-xs text-gray-600">
             © {currentYear} Adam Cutts
