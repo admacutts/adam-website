@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home page layout options — Adam Cutts</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Courier New", monospace;
+      font-size: 14px;
+      color: #000;
+      background: #fff;
+      line-height: 1.4;
+    }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    a:visited { color: #9333ea; }
+
+    .picker {
+      position: sticky;
+      top: 0;
+      z-index: 300;
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 12px 24px;
+    }
+    .picker h1 { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+    .picker p { font-size: 12px; color: #6b7280; margin-bottom: 10px; max-width: 820px; }
+    .picker-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tab, .shuffle {
+      font-family: inherit;
+      font-size: 12px;
+      padding: 6px 10px;
+      border: 1px solid #d1d5db;
+      background: #fff;
+      cursor: pointer;
+      color: #000;
+    }
+    .tab:hover, .shuffle:hover { background: #f3f4f6; }
+    .tab.active { background: #000; color: #fff; border-color: #000; }
+    .tab.current { border-color: #9ca3af; }
+    .shuffle { color: #2563eb; border-color: #bfdbfe; }
+
+    .frame { display: none; min-height: calc(100vh - 140px); position: relative; }
+    .frame.active { display: block; }
+    .label {
+      font-size: 11px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid #e5e7eb;
+      background: #fff;
+      position: relative;
+      z-index: 50;
+    }
+    .label strong { color: #000; }
+
+    .nav-stack { list-style: none; }
+    .nav-stack li + li { margin-top: 8px; }
+
+    .site-footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #d1d5db;
+      font-size: 12px;
+      color: #4b5563;
+    }
+
+    /* no grey boxes on photos */
+    .photo {
+      object-fit: contain;
+      background: transparent;
+      display: block;
+    }
+
+    .text-sm { font-size: 14px; }
+    .font-normal { font-weight: 400; }
+    .space-y-4 > * + * { margin-top: 16px; }
+
+    /* ——— Current ——— */
+    .current-wrap { max-width: 672px; padding: 24px; }
+    .current-wrap .photos { display: flex; gap: 16px; margin-top: 32px; align-items: flex-start; }
+    .current-wrap .photos .photo { height: 110px; width: auto; }
+    .current-wrap nav { margin-top: 24px; }
+
+    /* ——— Shared centered index ——— */
+    .index-core {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 48px 24px;
+      text-align: center;
+      position: relative;
+      z-index: 20;
+    }
+    .header-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: baseline;
+      justify-content: center;
+    }
+    .header-line .sep { color: #9ca3af; }
+    .index-stack { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+    .index-stack .home-link { font-size: 14px; }
+    .home-link { display: block; margin-top: 12px; font-size: 14px; }
+    .index-core nav { margin-top: 24px; }
+    .index-core .nav-stack { display: inline-block; text-align: left; }
+
+    .e2-photos {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin: 32px auto 0;
+    }
+    .e2-photos .photo { height: 110px; width: auto; }
+
+    /* ——— E3 scatter ——— */
+    .scatter-stage {
+      min-height: calc(100vh - 140px);
+      position: relative;
+      overflow: hidden;
+    }
+    .scatter-stage .index-core {
+      min-height: calc(100vh - 140px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .scatter-photo {
+      position: absolute;
+      object-fit: contain;
+      background: transparent;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* ——— E4 array compositions ——— */
+    .array-stage {
+      min-height: calc(100vh - 140px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* E4a — band overlaps grid */
+    .array-overlap {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(5, minmax(100px, 1fr));
+      gap: 8px;
+      padding: 20px;
+      min-height: calc(100vh - 140px);
+    }
+    .array-overlap .cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .array-overlap .cell .photo {
+      max-height: 110px;
+      width: auto;
+      max-width: 100%;
+    }
+    .index-band {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 40;
+      background: #fff;
+      padding: 36px 24px;
+      text-align: center;
+    }
+    .index-band nav { margin-top: 20px; }
+    .index-band .nav-stack { display: inline-block; text-align: left; }
+
+    /* E4b — woven mosaic: index is part of the grid */
+    .array-woven {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(5, minmax(96px, auto));
+      gap: 6px;
+      padding: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+      align-content: center;
+      min-height: calc(100vh - 140px);
+    }
+    .array-woven .cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .array-woven .cell .photo {
+      max-height: 100px;
+      width: auto;
+      max-width: 100%;
+    }
+    .array-woven .index-cell {
+      grid-column: 2 / span 5;
+      grid-row: 2 / span 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px;
+      z-index: 10;
+    }
+    .array-woven .index-cell nav { margin-top: 20px; }
+    .array-woven .index-cell .nav-stack { text-align: left; }
+
+    /* E4c — sandwich: grid blocks above and below index strip */
+    .array-sandwich {
+      min-height: calc(100vh - 140px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 16px 20px;
+      gap: 0;
+    }
+    .array-block {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 6px;
+    }
+    .array-block .cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 88px;
+    }
+    .array-block .photo {
+      max-height: 88px;
+      width: auto;
+      max-width: 100%;
+    }
+    .index-seam {
+      text-align: center;
+      padding: 28px 24px;
+      margin: 4px 0;
+      border-top: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+      background: #fff;
+      z-index: 10;
+    }
+    .index-seam nav { margin-top: 20px; }
+    .index-seam .nav-stack { display: inline-block; text-align: left; }
+
+    @media (max-width: 900px) {
+      .array-overlap { grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(6, minmax(80px, 1fr)); }
+      .array-woven { grid-template-columns: repeat(5, 1fr); }
+      .array-woven .index-cell { grid-column: 1 / span 5; grid-row: 3 / span 2; }
+      .array-block { grid-template-columns: repeat(5, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="picker">
+    <h1>Home page layout options</h1>
+    <p>Compare against the current site. E2 shows horizontal vs stacked index. E4 options use a regular photo array with no grey boxes — each explores a different relationship between images and the index band.</p>
+    <div class="picker-actions">
+      <div class="tabs">
+        <button class="tab current active" data-frame="current">Current</button>
+        <button class="tab" data-frame="e2">E2 — Index horizontal</button>
+        <button class="tab" data-frame="e2b">E2b — Index stacked</button>
+        <button class="tab" data-frame="e3">E3 — Scattered</button>
+        <button class="tab" data-frame="e3b">E3b — Scatter frame</button>
+        <button class="tab" data-frame="e4a">E4a — Overlap</button>
+        <button class="tab" data-frame="e4b">E4b — Woven mosaic</button>
+        <button class="tab" data-frame="e4c">E4c — Sandwich</button>
+      </div>
+      <button class="shuffle" type="button" id="shuffle">Shuffle photos</button>
+    </div>
+  </div>
+
+  <!-- Current -->
+  <section class="frame active" id="frame-current">
+    <p class="label"><strong>Current site</strong> · left-aligned column, three photos, vertical nav</p>
+    <div class="current-wrap">
+      <div class="space-y-4">
+        <h1 class="text-sm font-normal">Adam Cutts</h1>
+        <a href="#">Home</a>
+        <p class="text-sm">adamcutts . a @ gmail.com</p>
+      </div>
+      <div class="photos" id="current-photos"></div>
+      <nav>
+        <ul class="nav-stack text-sm">
+          <li><a href="#">Works</a></li>
+          <li><a href="#">Studio</a></li>
+          <li><a href="#">Projects</a></li>
+        </ul>
+      </nav>
+      <footer class="site-footer">© 2026 Adam Cutts</footer>
+    </div>
+  </section>
+
+  <!-- E2 horizontal index -->
+  <section class="frame" id="frame-e2">
+    <p class="label"><strong>E2 — Index horizontal</strong> · name and email on one line, three centered photos, stacked nav</p>
+    <div class="index-core">
+      <div class="header-line text-sm">
+        <strong>Adam Cutts</strong>
+        <span class="sep">·</span>
+        <span>adamcutts . a @ gmail.com</span>
+      </div>
+      <a class="home-link" href="#">Home</a>
+      <div class="e2-photos" id="e2-photos"></div>
+      <nav>
+        <ul class="nav-stack text-sm">
+          <li><a href="#">Works</a></li>
+          <li><a href="#">Studio</a></li>
+          <li><a href="#">Projects</a></li>
+        </ul>
+      </nav>
+      <footer class="site-footer">© 2026 Adam Cutts</footer>
+    </div>
+  </section>
+
+  <!-- E2b stacked index -->
+  <section class="frame" id="frame-e2b">
+    <p class="label"><strong>E2b — Index stacked</strong> · name, home link, and email each on their own line; three centered photos below</p>
+    <div class="index-core">
+      <div class="index-stack text-sm">
+        <strong>Adam Cutts</strong>
+        <a class="home-link" href="#" style="margin:0">Home</a>
+        <span>adamcutts . a @ gmail.com</span>
+      </div>
+      <div class="e2-photos" id="e2b-photos"></div>
+      <nav>
+        <ul class="nav-stack text-sm">
+          <li><a href="#">Works</a></li>
+          <li><a href="#">Studio</a></li>
+          <li><a href="#">Projects</a></li>
+        </ul>
+      </nav>
+      <footer class="site-footer">© 2026 Adam Cutts</footer>
+    </div>
+  </section>
+
+  <!-- E3 -->
+  <section class="frame" id="frame-e3">
+    <p class="label"><strong>E3 — Scattered</strong> · photos along left and right edges; centered index with stacked nav</p>
+    <div class="scatter-stage" id="scatter-stage-a">
+      <div class="index-core">
+        <div class="header-line text-sm">
+          <strong>Adam Cutts</strong>
+          <span class="sep">·</span>
+          <span>adamcutts . a @ gmail.com</span>
+        </div>
+        <a class="home-link" href="#">Home</a>
+        <nav>
+          <ul class="nav-stack text-sm">
+            <li><a href="#">Works</a></li>
+            <li><a href="#">Studio</a></li>
+            <li><a href="#">Projects</a></li>
+          </ul>
+        </nav>
+        <footer class="site-footer">© 2026 Adam Cutts</footer>
+      </div>
+    </div>
+  </section>
+
+  <!-- E3b frame scatter -->
+  <section class="frame" id="frame-e3b">
+    <p class="label"><strong>E3b — Scatter frame</strong> · photos form a loose arch around the index — balanced, not edge-cluttered</p>
+    <div class="scatter-stage" id="scatter-stage-b">
+      <div class="index-core">
+        <div class="header-line text-sm">
+          <strong>Adam Cutts</strong>
+          <span class="sep">·</span>
+          <span>adamcutts . a @ gmail.com</span>
+        </div>
+        <a class="home-link" href="#">Home</a>
+        <nav>
+          <ul class="nav-stack text-sm">
+            <li><a href="#">Works</a></li>
+            <li><a href="#">Studio</a></li>
+            <li><a href="#">Projects</a></li>
+          </ul>
+        </nav>
+        <footer class="site-footer">© 2026 Adam Cutts</footer>
+      </div>
+    </div>
+  </section>
+
+  <!-- E4a overlap -->
+  <section class="frame" id="frame-e4a">
+    <p class="label"><strong>E4a — Overlap</strong> · regular grid fills the page; index band crosses the middle row and overlaps the photos</p>
+    <div class="array-stage">
+      <div class="array-overlap" id="e4a-grid"></div>
+      <div class="index-band">
+        <div class="header-line text-sm">
+          <strong>Adam Cutts</strong>
+          <span class="sep">·</span>
+          <span>adamcutts . a @ gmail.com</span>
+        </div>
+        <a class="home-link" href="#">Home</a>
+        <nav>
+          <ul class="nav-stack text-sm">
+            <li><a href="#">Works</a></li>
+            <li><a href="#">Studio</a></li>
+            <li><a href="#">Projects</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- E4b woven -->
+  <section class="frame" id="frame-e4b">
+    <p class="label"><strong>E4b — Woven mosaic</strong> · index occupies the center of the grid; photos fill the surrounding cells as one composition</p>
+    <div class="array-woven" id="e4b-grid">
+      <div class="index-cell">
+        <div class="header-line text-sm">
+          <strong>Adam Cutts</strong>
+          <span class="sep">·</span>
+          <span>adamcutts . a @ gmail.com</span>
+        </div>
+        <a class="home-link" href="#">Home</a>
+        <nav>
+          <ul class="nav-stack text-sm">
+            <li><a href="#">Works</a></li>
+            <li><a href="#">Studio</a></li>
+            <li><a href="#">Projects</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- E4c sandwich -->
+  <section class="frame" id="frame-e4c">
+    <p class="label"><strong>E4c — Sandwich</strong> · two grids of photos above and below; index sits in the seam between them</p>
+    <div class="array-sandwich">
+      <div class="array-block" id="e4c-top"></div>
+      <div class="index-seam">
+        <div class="header-line text-sm">
+          <strong>Adam Cutts</strong>
+          <span class="sep">·</span>
+          <span>adamcutts . a @ gmail.com</span>
+        </div>
+        <a class="home-link" href="#">Home</a>
+        <nav>
+          <ul class="nav-stack text-sm">
+            <li><a href="#">Works</a></li>
+            <li><a href="#">Studio</a></li>
+            <li><a href="#">Projects</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="array-block" id="e4c-bottom"></div>
+    </div>
+  </section>
+
+  <script>
+    const ALL_PHOTOS = [
+      "studio1.jpg","studio12.jpg","studio23.jpg","studio45.jpg","studio58.jpg",
+      "studio68.jpg","studio69.jpg","studio70.jpg","studio71.jpg","studio72.jpg",
+      "studio73.jpg","studio74.jpg","studio75.jpg","studio76.jpg","studio77.jpg",
+      "studio78.jpg","studio79.jpg","studio80.jpg","studio81.jpg","studio82.jpg",
+      "studio83.jpg","studio84.jpg","studio85.jpg","studio86.jpg","studio87.jpg",
+      "studio88.jpg","studio89.jpg","studio90.jpg"
+    ];
+
+    function pickRandom(n) {
+      const pool = [...ALL_PHOTOS];
+      const out = [];
+      while (out.length < n && pool.length) {
+        const i = Math.floor(Math.random() * pool.length);
+        out.push(pool.splice(i, 1)[0]);
+      }
+      return out;
+    }
+
+    function randomPhoto() {
+      return ALL_PHOTOS[Math.floor(Math.random() * ALL_PHOTOS.length)];
+    }
+
+    function img(src) {
+      const el = document.createElement("img");
+      el.className = "photo";
+      el.src = "/preview/" + src;
+      el.alt = "";
+      return el;
+    }
+
+    function photoCell(src) {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.appendChild(img(src));
+      return cell;
+    }
+
+    // E3 — left/right edges
+    const SCATTER_A = [
+      { top: "6%",  left: "4%",  h: 95  },
+      { top: "8%",  right: "5%", h: 110 },
+      { top: "22%", left: "2%",  h: 75  },
+      { top: "18%", right: "3%", h: 130 },
+      { top: "62%", left: "6%",  h: 100 },
+      { top: "58%", right: "4%", h: 85  },
+      { top: "78%", left: "12%", h: 70  },
+      { top: "72%", right: "8%", h: 115 },
+      { top: "38%", left: "1%",  h: 65  },
+      { top: "42%", right: "1%", h: 90  },
+    ];
+
+    // E3b — arch / frame around center
+    const SCATTER_B = [
+      { top: "10%", left: "14%",  h: 88  },
+      { top: "6%",  left: "50%",  h: 105, transform: "translateX(-50%)" },
+      { top: "10%", right: "14%", h: 92  },
+      { top: "28%", left: "7%",   h: 72  },
+      { top: "28%", right: "7%",  h: 78  },
+      { top: "48%", left: "10%",  h: 58  },
+      { top: "48%", right: "10%", h: 62  },
+      { top: "68%", left: "20%",  h: 82  },
+      { top: "68%", right: "20%", h: 76  },
+      { top: "82%", left: "50%",  h: 90,  transform: "translateX(-50%)" },
+    ];
+
+    function renderScatter(stageId, slots, countRange) {
+      const stage = document.getElementById(stageId);
+      stage.querySelectorAll(".scatter-photo").forEach((el) => el.remove());
+      const count = countRange[0] + Math.floor(Math.random() * (countRange[1] - countRange[0] + 1));
+      pickRandom(Math.min(count, slots.length)).forEach((src, i) => {
+        const slot = slots[i % slots.length];
+        const photo = img(src);
+        photo.classList.add("scatter-photo");
+        photo.style.top = slot.top;
+        photo.style.height = slot.h + "px";
+        if (slot.left) {
+          photo.style.left = slot.left;
+          photo.style.right = "auto";
+          if (slot.transform) photo.style.transform = slot.transform;
+        } else {
+          photo.style.right = slot.right;
+          photo.style.left = "auto";
+        }
+        stage.appendChild(photo);
+      });
+    }
+
+    function renderThreePhotos(containerId) {
+      const wrap = document.getElementById(containerId);
+      wrap.innerHTML = "";
+      pickRandom(3).forEach((src) => wrap.appendChild(img(src)));
+    }
+
+    function fillGrid(containerId, count) {
+      const grid = document.getElementById(containerId);
+      grid.querySelectorAll(".cell").forEach((el) => el.remove());
+      for (let i = 0; i < count; i++) {
+        grid.appendChild(photoCell(randomPhoto()));
+      }
+    }
+
+    function renderE4a() {
+      fillGrid("e4a-grid", 40);
+    }
+
+    function renderE4b() {
+      const grid = document.getElementById("e4b-grid");
+      grid.querySelectorAll(".cell").forEach((el) => el.remove());
+      // 7 cols × 5 rows = 35 cells; index occupies center 5×3 = 15; 20 photo cells
+      const indexCell = grid.querySelector(".index-cell");
+      const positions = [];
+      for (let row = 1; row <= 5; row++) {
+        for (let col = 1; col <= 7; col++) {
+          const inIndex = col >= 2 && col <= 6 && row >= 2 && row <= 4;
+          if (!inIndex) positions.push({ row, col });
+        }
+      }
+      positions.forEach(({ row, col }) => {
+        const cell = photoCell(randomPhoto());
+        cell.style.gridRow = row;
+        cell.style.gridColumn = col;
+        grid.insertBefore(cell, indexCell);
+      });
+    }
+
+    function renderE4c() {
+      fillGrid("e4c-top", 16);
+      fillGrid("e4c-bottom", 16);
+    }
+
+    function renderAll() {
+      renderThreePhotos("current-photos");
+      renderThreePhotos("e2-photos");
+      renderThreePhotos("e2b-photos");
+      renderScatter("scatter-stage-a", SCATTER_A, [7, 9]);
+      renderScatter("scatter-stage-b", SCATTER_B, [8, 10]);
+      renderE4a();
+      renderE4b();
+      renderE4c();
+    }
+
+    document.querySelectorAll(".tab").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+        document.querySelectorAll(".frame").forEach((f) => f.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("frame-" + btn.dataset.frame).classList.add("active");
+      });
+    });
+
+    document.getElementById("shuffle").addEventListener("click", renderAll);
+    renderAll();
+  </script>
+</body>
+</html>
