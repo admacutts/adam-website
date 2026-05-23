@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 // Import studio images for random display
 import studio1 from '../assets/studio/studio1.jpg';
@@ -264,6 +264,9 @@ const artworks: Artwork[] = [
 const studioImages = [studio1, studio2, studio3, studio4, studio5, studio6, studio7, studio8, studio9, studio10, studio11, studio12, studio13, studio14, studio15, studio16, studio17, studio18, studio19, studio20, studio21, studio22, studio23, studio26, studio27, studio28, studio29, studio30, studio31, studio32, studio33, studio34, studio35, studio36, studio37, studio38, studio39, studio40, studio41, studio42, studio43, studio44, studio45, studio46, studio47, studio48, studio49, studio50, studio51, studio52, studio53, studio54, studio55, studio56, studio57, studio58, studio59, studio60, studio61, studio62, studio63, studio64, studio65, studio66, studio67, studio68, studio69, studio70, studio71, studio72, studio73, studio74, studio75, studio76, studio77, studio78, studio79, studio80, studio81, studio82, studio83, studio84, studio85, studio86, studio87, studio88, studio89, studio90];
 // ============================================
 
+function pickRandomStudioImages(count = 3) {
+  return [...studioImages].sort(() => 0.5 - Math.random()).slice(0, count);
+}
 
 type IndexProps = { showWorksTable?: boolean };
 
@@ -272,6 +275,10 @@ function Index({ showWorksTable = false }: IndexProps) {
   const [detailImageIndex, setDetailImageIndex] = useState(0);
   const [visitedWorks, setVisitedWorks] = useState<Set<string>>(new Set());
   const [indexBandHeight, setIndexBandHeight] = useState(0);
+  const [homeStudioImages] = useState(() => pickRandomStudioImages());
+  const [worksStudioImages, setWorksStudioImages] = useState(() =>
+    pickRandomStudioImages()
+  );
   const indexBandRef = useRef<HTMLDivElement>(null);
   const currentYear = new Date().getFullYear();
 
@@ -282,16 +289,14 @@ function Index({ showWorksTable = false }: IndexProps) {
       imgs.length ? Math.min(Math.max(0, imageIndex), imgs.length - 1) : 0
     );
     setVisitedWorks((prev) => new Set(prev).add(work.id));
+    if (showWorksTable) {
+      setWorksStudioImages(pickRandomStudioImages());
+    }
   };
 
   const closeDetail = () => {
     setDetailWork(null);
   };
-
-  const randomStudioImages = useMemo(
-    () => [...studioImages].sort(() => 0.5 - Math.random()).slice(0, 3),
-    []
-  );
 
   useEffect(() => {
     if (!showWorksTable) return;
@@ -463,19 +468,23 @@ function Index({ showWorksTable = false }: IndexProps) {
               </nav>
             </div>
             <div
-              className="flex justify-center items-start gap-3 min-w-0"
+              className="flex justify-center items-stretch gap-3 min-w-0"
               style={indexBandHeight > 0 ? { height: indexBandHeight } : undefined}
             >
-              {randomStudioImages.map((img, idx) => (
-                <img
-                  key={idx}
-                  src={img}
-                  alt={`Studio photo ${idx + 1}`}
-                  className="block w-auto max-w-[100px] object-contain"
+              {worksStudioImages.map((img, idx) => (
+                <div
+                  key={`${img}-${idx}`}
+                  className="flex items-center justify-center shrink-0 w-[100px]"
                   style={
                     indexBandHeight > 0 ? { height: indexBandHeight } : undefined
                   }
-                />
+                >
+                  <img
+                    src={img}
+                    alt={`Studio photo ${idx + 1}`}
+                    className="block max-h-full max-w-full object-contain"
+                  />
+                </div>
               ))}
             </div>
           </div>
@@ -494,13 +503,17 @@ function Index({ showWorksTable = false }: IndexProps) {
           </div>
           <div className="mt-8">
             <div className="flex gap-4 items-end justify-center flex-wrap">
-              {randomStudioImages.map((img, idx) => (
-                <img
-                  key={idx}
-                  src={img}
-                  alt={`Studio photo ${idx + 1}`}
-                  className="h-[110px] object-contain"
-                />
+              {homeStudioImages.map((img, idx) => (
+                <div
+                  key={`${img}-${idx}`}
+                  className="flex items-end justify-center h-[110px] w-[100px] shrink-0"
+                >
+                  <img
+                    src={img}
+                    alt={`Studio photo ${idx + 1}`}
+                    className="block max-h-full max-w-full object-contain"
+                  />
+                </div>
               ))}
             </div>
             <nav className="mt-6 inline-block text-left">
