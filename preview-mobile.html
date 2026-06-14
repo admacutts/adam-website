@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile preview — Adam Cutts</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 24px 16px;
+        background: #e8e8e8;
+        font-family: ui-monospace, monospace;
+        font-size: 12px;
+        color: #444;
+      }
+
+      .label {
+        letter-spacing: 0.02em;
+      }
+
+      .phone {
+        width: 390px;
+        height: 844px;
+        max-width: calc(100vw - 32px);
+        max-height: calc(100vh - 80px);
+        border: 10px solid #1a1a1a;
+        border-radius: 28px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+      }
+
+      .routes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        max-width: 390px;
+      }
+
+      .routes a {
+        color: #0047ab;
+        text-decoration: none;
+      }
+
+      .routes a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="label">iPhone 14 Pro viewport (390 × 844)</p>
+    <div class="phone">
+      <iframe id="preview" src="/" title="Mobile site preview"></iframe>
+    </div>
+    <nav class="routes" aria-label="Preview routes">
+      <a href="/" data-path="/">Home</a>
+      <a href="/works" data-path="/works">Works</a>
+      <a href="/studio" data-path="/studio">Studio</a>
+      <a href="/projects" data-path="/projects">Projects</a>
+    </nav>
+    <script>
+      const frame = document.getElementById("preview");
+      document.querySelectorAll(".routes a").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          frame.src = link.dataset.path;
+        });
+      });
+    </script>
+  </body>
+</html>
