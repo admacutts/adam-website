@@ -432,9 +432,9 @@ function Index({ showWorksTable = false }: IndexProps) {
 
       {/* Header — home: E2b centered; works: index band + photos matched to Home→Projects height */}
       {showWorksTable ? (
-        <div className="px-6 py-6">
+        <div className="px-4 sm:px-6 py-6 overflow-x-clip">
           <h1 className="text-sm font-normal mb-4">Adam Cutts</h1>
-          <div className="grid grid-cols-[auto_1fr] gap-8 items-start">
+          <div className="grid grid-cols-[auto_1fr] gap-3 sm:gap-8 items-start min-w-0">
             <div ref={indexBandRef} className="shrink-0">
               <div className="space-y-4">
                 <Link
@@ -468,13 +468,13 @@ function Index({ showWorksTable = false }: IndexProps) {
               </nav>
             </div>
             <div
-              className="flex justify-center items-stretch gap-3 min-w-0"
+              className="flex justify-center items-stretch gap-1.5 sm:gap-3 min-w-0 overflow-hidden"
               style={indexBandHeight > 0 ? { height: indexBandHeight } : undefined}
             >
               {worksStudioImages.map((img, idx) => (
                 <div
                   key={`${img}-${idx}`}
-                  className="flex items-center justify-center shrink-0 w-[100px]"
+                  className="flex items-center justify-center min-w-0 flex-1 basis-0 max-w-[100px]"
                   style={
                     indexBandHeight > 0 ? { height: indexBandHeight } : undefined
                   }
@@ -490,7 +490,7 @@ function Index({ showWorksTable = false }: IndexProps) {
           </div>
         </div>
       ) : (
-        <div className="max-w-[420px] mx-auto px-6 py-12 text-center">
+        <div className="max-w-[420px] mx-auto px-4 sm:px-6 py-12 text-center">
           <div className="flex flex-col items-center gap-3 text-sm">
             <h1 className="text-sm font-normal">Adam Cutts</h1>
             <Link
@@ -516,8 +516,8 @@ function Index({ showWorksTable = false }: IndexProps) {
                 </div>
               ))}
             </div>
-            <nav className="mt-6 inline-block text-left">
-              <ul className="space-y-2 text-sm">
+            <nav className="mt-6">
+              <ul className="space-y-2 text-sm text-center">
                 <li>
                   <Link
                     to="/works"
@@ -550,8 +550,8 @@ function Index({ showWorksTable = false }: IndexProps) {
 
       {/* Works — W4 + W4f hybrid: year + title left, single uncropped image */}
       {showWorksTable && (
-        <div className="px-6 pb-8 mt-8">
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2.5">
+        <div className="px-4 sm:px-6 pb-8 mt-8 overflow-x-clip">
+          <div className="grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2 sm:gap-2.5">
             {artworks.map((work) => {
               const heroImage = work.images?.[0];
               return (
@@ -603,8 +603,8 @@ function Index({ showWorksTable = false }: IndexProps) {
       <div
         className={
           showWorksTable
-            ? "max-w-2xl px-6 pb-6 mt-auto"
-            : "max-w-[420px] mx-auto px-6 pb-6 mt-auto text-center"
+            ? "max-w-2xl px-4 sm:px-6 pb-6 mt-auto"
+            : "max-w-[420px] mx-auto px-4 sm:px-6 pb-6 mt-auto text-center"
         }
       >
         <footer className="pt-6 border-t border-gray-300">

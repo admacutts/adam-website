@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Mobile Preview",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173/preview-mobile.html",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "dev"
+    },
+    {
+      "name": "Desktop Preview",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/src",
+      "preLaunchTask": "dev"
+    }
+  ]
+}

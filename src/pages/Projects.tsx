@@ -490,7 +490,7 @@ function Projects() {
       )}
 
       {/* Menu header */}
-      <div className="max-w-2xl px-6 py-6">
+      <div className="max-w-2xl px-4 sm:px-6 py-6">
         <div className="space-y-4">
           <h1 className="text-sm font-normal">Adam Cutts</h1>
           <Link
@@ -533,7 +533,7 @@ function Projects() {
           const list = projectsByYear.get(year) ?? [];
           return (
             <div key={year}>
-              <div className="flex border-b border-gray-200 px-6">
+              <div className="flex border-b border-gray-200 px-4 sm:px-6">
                 <div className="flex-1 py-2 pr-6 pl-0">
                   <div className="text-left text-sm text-black">{year}</div>
                 </div>
@@ -543,9 +543,9 @@ function Projects() {
               {list.map((project) => (
                 <div
                   key={project.id}
-                  className="flex border-b border-gray-200 px-6 items-start gap-2 sm:gap-3"
+                  className="flex border-b border-gray-200 px-4 sm:px-6 items-start gap-2 sm:gap-3"
                 >
-                  <div className="w-[min(46%,260px)] shrink-0 py-2 pr-2 min-w-0">
+                  <div className="w-[min(38%,220px)] sm:w-[min(46%,260px)] shrink-0 py-2 pr-2 min-w-0">
                     <button
                       type="button"
                       onClick={() => openProjectFromTitle(project)}
@@ -575,7 +575,7 @@ function Projects() {
                               onClick={() =>
                                 openVimeoModal(project, clip.embedSrc)
                               }
-                              className="relative shrink-0 h-16 w-[88px] p-0 bg-gray-800 border-0 rounded-none shadow-none outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset overflow-hidden"
+                              className="relative shrink-0 h-14 w-[72px] sm:h-16 sm:w-[88px] p-0 bg-gray-800 border-0 rounded-none shadow-none outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset overflow-hidden"
                               aria-label={`${project.title} — ${clip.label}`}
                             >
                               {poster ? (
@@ -608,7 +608,7 @@ function Projects() {
                             key={index}
                             type="button"
                             onClick={() => openGallery(project, index)}
-                            className="shrink-0 h-16 w-[88px] flex items-center justify-center p-0 bg-transparent border-0 rounded-none shadow-none outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset overflow-hidden"
+                            className="shrink-0 h-14 w-[72px] sm:h-16 sm:w-[88px] flex items-center justify-center p-0 bg-transparent border-0 rounded-none shadow-none outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-inset overflow-hidden"
                             aria-label={`Open ${project.title} — image ${index + 1}`}
                           >
                             <img
@@ -636,7 +636,7 @@ function Projects() {
       </div>
 
       {/* Footer */}
-      <div className="max-w-2xl px-6 pb-6 mt-auto">
+      <div className="max-w-2xl px-4 sm:px-6 pb-6 mt-auto">
         <footer className="pt-6 border-t border-gray-300">
           <p className="text-xs text-gray-600">© {currentYear} Adam Cutts</p>
         </footer>

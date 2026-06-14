@@ -139,7 +139,7 @@ function Studio() {
   return (
     <div className="min-h-screen bg-white font-mono text-black text-sm">
       {/* Header section with constrained width */}
-      <div className="max-w-2xl px-6 py-6">
+      <div className="max-w-2xl px-4 sm:px-6 py-6">
         {/* Artist name and email */}
         <div className="space-y-4">
           <h1 className="text-sm font-normal">Adam Cutts</h1>
@@ -183,7 +183,7 @@ function Studio() {
         {studioItems.filter(item => item.id !== "marginalia").map((item) => (
           <div key={item.id}>
             {/* Table row */}
-            <div className="flex border-b border-gray-200 px-6">
+            <div className="flex border-b border-gray-200 px-4 sm:px-6">
               {/* Title column - clickable */}
               <div className="flex-1 py-2 pr-4 min-w-0">
                 <button
@@ -202,7 +202,7 @@ function Studio() {
 
             {/* Expanded content */}
             {expandedItem === item.id && (
-              <div className="py-4 border-b border-gray-200 px-6">
+              <div className="py-4 border-b border-gray-200 px-4 sm:px-6">
                 <div className="space-y-3 text-gray-700 text-sm">
                   {item.content.type === 'bio' && (
                     <div className="space-y-4">
@@ -267,7 +267,7 @@ function Studio() {
       {marginaliaItem && marginaliaItem.content.type === 'photos' && (
         <div className="py-4 border-b border-gray-200">
           <div className="mt-2 overflow-x-auto minimal-scrollbar">
-            <div className="flex space-x-3 pb-2 px-6" style={{ width: 'max-content' }}>
+            <div className="flex space-x-3 pb-2 px-4 sm:px-6" style={{ width: 'max-content' }}>
               {(marginaliaItem.content.images ?? []).map((imgSrc, idx) => (
                 <img
                   key={idx}
@@ -280,7 +280,7 @@ function Studio() {
           </div>
 
           {/* Scroll hint */}
-          <div className="px-6">
+          <div className="px-4 sm:px-6">
             <p className="text-xs text-gray-500 italic">Scroll horizontally →</p>
           </div>
         </div>
@@ -288,7 +288,7 @@ function Studio() {
 
       
       {/* Footer with constrained width */}
-      <div className="max-w-2xl px-6">
+      <div className="max-w-2xl px-4 sm:px-6">
         <footer className="mt-12 pt-6 border-t border-gray-300">
           <p className="text-xs text-gray-600">
             © {currentYear} Adam Cutts

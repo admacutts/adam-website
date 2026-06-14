@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+html,
+body,
+#root {
+  overflow-x: clip;
+}
+
 /**
  * Thin, low-contrast horizontal scrollbar — matches light gray table rules.
  * Firefox: thin + custom colors. WebKit: 3px thumb, no track fill.
