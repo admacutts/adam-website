@@ -6,32 +6,28 @@
       "type": "vscode",
       "request": "launch",
       "command": "simpleBrowser.show",
-      "args": ["http://localhost:5173"],
-      "preLaunchTask": "dev"
+      "args": ["http://localhost:5173"]
     },
     {
       "name": "Simple Browser: Mobile",
       "type": "vscode",
       "request": "launch",
       "command": "simpleBrowser.show",
-      "args": ["http://localhost:5173/preview-mobile.html"],
-      "preLaunchTask": "dev"
+      "args": ["http://localhost:5173/preview-mobile.html"]
     },
     {
       "name": "Chrome: Desktop",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:5173",
-      "webRoot": "${workspaceFolder}/src",
-      "preLaunchTask": "dev"
+      "webRoot": "${workspaceFolder}/src"
     },
     {
       "name": "Chrome: Mobile",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:5173/preview-mobile.html",
-      "webRoot": "${workspaceFolder}",
-      "preLaunchTask": "dev"
+      "webRoot": "${workspaceFolder}"
     }
   ]
 }

@@ -6,6 +6,9 @@
       "type": "npm",
       "script": "dev",
       "isBackground": true,
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
       "problemMatcher": {
         "owner": "vite",
         "pattern": {
@@ -39,7 +42,7 @@
     },
     {
       "label": "Preview",
-      "dependsOn": ["dev", "open-preview-browser"],
+      "dependsOn": ["open-preview-browser"],
       "dependsOrder": "sequence",
       "group": {
         "kind": "build",
@@ -49,7 +52,7 @@
     },
     {
       "label": "Mobile Preview",
-      "dependsOn": ["dev", "open-mobile-preview-browser"],
+      "dependsOn": ["open-mobile-preview-browser"],
       "dependsOrder": "sequence",
       "problemMatcher": []
     }
