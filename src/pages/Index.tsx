@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { artworks, type Artwork } from "../lib/works";
 // Import studio images for random display
 import studio1 from '../assets/studio/studio1.jpg';
 import studio2 from '../assets/studio/studio2.jpg';
@@ -89,183 +90,61 @@ import studio87 from '../assets/studio/studio87.jpg';
 import studio88 from '../assets/studio/studio88.jpg';
 import studio89 from '../assets/studio/studio89.jpg';
 import studio90 from '../assets/studio/studio90.jpg';
-
-import project0Image1 from '../assets/works/P00/8102.300_1.jpg';
-import project0Image2 from '../assets/works/P00/8102.300_2.jpg';
-import project0Image3 from '../assets/works/P00/8102.300_3.jpg';
-import project0Image4 from '../assets/works/P00/8102.300_4.jpg';
-import project0Image5 from '../assets/works/P00/8102.300_5.jpg';
-import project0Image6 from '../assets/works/P00/8102.300_6.jpg';
-import project0Image7 from '../assets/works/P00/8102.300_7.jpg';
-import project0Image8 from '../assets/works/P00/8102.300_8.jpg';
-import project0Image9 from '../assets/works/P00/8102.300_9.jpg';
-import project0Image10 from '../assets/works/P00/8102.300_10.jpg';
-import project0Image11 from '../assets/works/P00/8102.300_11.jpg';
-import project0Image12 from '../assets/works/P00/8102.300_12.jpg';
-import project0Image13 from '../assets/works/P00/8102.300_13.jpg';
-import project1Image1 from '../assets/works/P01/3202.602_1.jpg';
-import project2Image1 from '../assets/works/P02/3202.1002_1.jpg';
-import project2Image2 from '../assets/works/P02/3202.1002_2.jpg';
-import project3Image1 from '../assets/works/P03/3202.1101_1.jpg';
-import project3Image2 from '../assets/works/P03/3202.1101_2.jpg';
-import project3Image3 from '../assets/works/P03/3202.1101_3.jpg';
-import project4Image1 from '../assets/works/P04/3202.1201_1.jpg';
-import project4Image2 from '../assets/works/P04/3202.1201_2.jpg';
-import project5Image1 from '../assets/works/P05/4202.301_1.jpg';
-import project6Image1 from '../assets/works/P06/4202.0201_1.jpg';
-import project6Image2 from '../assets/works/P06/4202.0201_2.jpg';
-import project6Image3 from '../assets/works/P06/4202.0201_3.jpg';
-import project7Image1 from '../assets/works/P07/4202.601_1.jpg';
-import project7Image2 from '../assets/works/P07/4202.601_2.jpg';
-import project7Image3 from '../assets/works/P07/4202.601_3.jpg';
-import project7Image4 from '../assets/works/P07/4202.601_4.jpg';
-import project7Image5 from '../assets/works/P07/4202.601_5.jpg';
-import project8Image1 from '../assets/works/P08/4202.901_1.jpg';
-import project8Image2 from '../assets/works/P08/4202.901_2.jpg';
-import project9Image1 from '../assets/works/P09/5202.501_1.jpg';
-import project9Image2 from '../assets/works/P09/5202.501_2.jpg';
-import project9Image3 from '../assets/works/P09/5202.501_3.jpg';
-import project9Image4 from '../assets/works/P09/5202.501_4.jpg';
-import project10Image1 from '../assets/works/P10/5202.521_1.jpg';
-import project11Image1 from '../assets/works/P11/6202.101_1.jpg';
-import project11Image2 from '../assets/works/P11/6202.101_2.jpg';
-import project11Image3 from '../assets/works/P11/6202.101_3.jpg';
-import project11Image4 from '../assets/works/P11/6202.101_4.jpg';
-import project11Image5 from '../assets/works/P11/6202.101_5.jpg';
-
-
-interface Artwork {
-  id: string;
-  number: string;
-  title: string;
-  year: string;
-  medium: string;
-  description: string;
-  images?: string[];
-}
-
-// ============================================
-// Sample artwork data - replace with actual portfolio pieces
-const artworks: Artwork[] = [
-  {
-    id: "11",
-    number: "11",
-    title: "Foot Bridge",
-    year: "2026",
-    medium: "Earthenware",
-    description: "",
-    images: [project11Image1, project11Image2, project11Image3, project11Image4, project11Image5]
-  },
-  {
-    id: "10",
-    number: "10",
-    title: "Foothill Study Tile",
-    year: "2025",
-    medium: "Stoneware and Terra Sigillata",
-    description: "",
-    images: [project10Image1]
-  },
-  {
-    id: "9",
-    number: "09",
-    title: "Vented Storage with Sign",
-    year: "2025",
-    medium: "stoneware, soda ash",
-    description: "",
-    images: [project9Image1, project9Image2, project9Image3, project9Image4]
-  },
-  {
-    id: "8",
-    number: "08",
-    title: "Lacrymatory",
-    year: "2025",
-    medium: "earthenware, glaze",
-    description: "",
-    images: [project8Image1, project8Image2]
-  },
-  {
-    id: "7",
-    number: "07",
-    title: "Storage with Earmark and Three-Part Lid",
-    year: "2024",
-    medium: "earthenware, terra sigillata, soda ash based laundry detergent",
-    description: "container with a three part lid, made entirely from 2mm clay sheets",
-    images: [project7Image1, project7Image2, project7Image5, project7Image4,]
-  },
-  {
-    id: "6",
-    number: "06",
-    title: "Enshrining a Tree",
-    year: "2023",
-    medium: "earthenware, terra sigillata",
-    description: "",
-    images: [project6Image1, project6Image2, project6Image3]
-  },
-  {
-    id: "5",
-    number: "05",
-    title: "Altar/Split Jar with Fat Hat",
-    year: "2023",
-    medium: "wood, ceramic, mirror-polished aluminum, remote operated candles",
-    description: "with Jenna Graziano",
-    images: [project5Image1]
-  },
-  {
-    id: "4",
-    number: "04",
-    title: "Land Boat",
-    year: "2023",
-    medium: "earthenware",
-    description: "",
-    images: [project4Image1, project4Image2]
-  },
-  {
-    id: "3",
-    number: "03",
-    title: "Stack",
-    year: "2023",
-    medium: "earthenware, glaze",
-    description: "",
-    images: [project3Image1, project3Image2, project3Image3]
-  },
-  {
-    id: "2",
-    number: "02",
-    title: "Lintel Model",
-    year: "2023",
-    medium: "earthenware",
-    description: "",
-    images: [project2Image1, project2Image2]
-
-  },
-  {
-    id: "1",
-    number: "01",
-    title: "Dancing Jug",
-    year: "2018",
-    medium: "stoneware and terra sigillata",
-    description: "",
-    images: [project1Image1]
-  },
-  {
-    id: "0",
-    number: "00",
-    title: "Amoeba Wrestling",
-    year: "2018",
-    medium: "stoneware, oxides, glaze",
-    description: "with Noah Tavlin",
-    images: [project0Image1, project0Image2, project0Image3, project0Image4, project0Image5, project0Image6, project0Image7, project0Image8, project0Image9, project0Image10, project0Image11, project0Image12, project0Image13]
-  }
-];
+import studio91 from '../assets/studio/studio91.jpg';
+import studio92 from '../assets/studio/studio92.jpg';
+import studio93 from '../assets/studio/studio93.jpg';
+import studio94 from '../assets/studio/studio94.jpg';
+import studio95 from '../assets/studio/studio95.jpg';
+import studio96 from '../assets/studio/studio96.jpg';
+import studio97 from '../assets/studio/studio97.jpg';
+import studio98 from '../assets/studio/studio98.jpg';
+import studio99 from '../assets/studio/studio99.jpg';
+import studio100 from '../assets/studio/studio100.jpg';
 
 
 // ============================================
 // PASTE YOUR STUDIO IMAGES ARRAY HERE
-const studioImages = [studio1, studio2, studio3, studio4, studio5, studio6, studio7, studio8, studio9, studio10, studio11, studio12, studio13, studio14, studio15, studio16, studio17, studio18, studio19, studio20, studio21, studio22, studio23, studio26, studio27, studio28, studio29, studio30, studio31, studio32, studio33, studio34, studio35, studio36, studio37, studio38, studio39, studio40, studio41, studio42, studio43, studio44, studio45, studio46, studio47, studio48, studio49, studio50, studio51, studio52, studio53, studio54, studio55, studio56, studio57, studio58, studio59, studio60, studio61, studio62, studio63, studio64, studio65, studio66, studio67, studio68, studio69, studio70, studio71, studio72, studio73, studio74, studio75, studio76, studio77, studio78, studio79, studio80, studio81, studio82, studio83, studio84, studio85, studio86, studio87, studio88, studio89, studio90];
+const studioImages = [studio1, studio2, studio3, studio4, studio5, studio6, studio7, studio8, studio9, studio10, studio11, studio12, studio13, studio14, studio15, studio16, studio17, studio18, studio19, studio20, studio21, studio22, studio23, studio26, studio27, studio28, studio29, studio30, studio31, studio32, studio33, studio34, studio35, studio36, studio37, studio38, studio39, studio40, studio41, studio42, studio43, studio44, studio45, studio46, studio47, studio48, studio49, studio50, studio51, studio52, studio53, studio54, studio55, studio56, studio57, studio58, studio59, studio60, studio61, studio62, studio63, studio64, studio65, studio66, studio67, studio68, studio69, studio70, studio71, studio72, studio73, studio74, studio75, studio76, studio77, studio78, studio79, studio80, studio81, studio82, studio83, studio84, studio85, studio86, studio87, studio88, studio89, studio90, studio91, studio92, studio93, studio94, studio95, studio96, studio97, studio98, studio99, studio100];
 // ============================================
 
 function pickRandomStudioImages(count = 3) {
   return [...studioImages].sort(() => 0.5 - Math.random()).slice(0, count);
+}
+
+function StudioThumbStrip({
+  images,
+  gapClassName = "gap-4",
+  className = "",
+  heightPx,
+}: {
+  images: string[];
+  gapClassName?: string;
+  className?: string;
+  /** When set, every thumbnail uses this exact height (works page index band). */
+  heightPx?: number;
+}) {
+  const imageClassName =
+    heightPx && heightPx > 0
+      ? "block w-auto object-contain shrink-0"
+      : "block h-[110px] w-auto object-contain shrink-0";
+  const resolvedHeight = heightPx && heightPx > 0 ? heightPx : undefined;
+
+  return (
+    <div
+      className={`flex items-end justify-center min-w-0 ${gapClassName} ${className}`.trim()}
+      style={resolvedHeight ? { height: resolvedHeight } : undefined}
+    >
+      {images.map((img, idx) => (
+        <img
+          key={`${img}-${idx}`}
+          src={img}
+          alt={`Studio photo ${idx + 1}`}
+          className={imageClassName}
+          style={resolvedHeight ? { height: resolvedHeight } : undefined}
+        />
+      ))}
+    </div>
+  );
 }
 
 type IndexProps = { showWorksTable?: boolean };
@@ -274,12 +153,12 @@ function Index({ showWorksTable = false }: IndexProps) {
   const [detailWork, setDetailWork] = useState<Artwork | null>(null);
   const [detailImageIndex, setDetailImageIndex] = useState(0);
   const [visitedWorks, setVisitedWorks] = useState<Set<string>>(new Set());
-  const [indexBandHeight, setIndexBandHeight] = useState(0);
   const [homeStudioImages] = useState(() => pickRandomStudioImages());
   const [worksStudioImages, setWorksStudioImages] = useState(() =>
     pickRandomStudioImages()
   );
-  const indexBandRef = useRef<HTMLDivElement>(null);
+  const worksIndexBandRef = useRef<HTMLDivElement>(null);
+  const [worksIndexBandHeight, setWorksIndexBandHeight] = useState(0);
   const currentYear = new Date().getFullYear();
 
   const openDetail = (work: Artwork, imageIndex = 0) => {
@@ -300,14 +179,16 @@ function Index({ showWorksTable = false }: IndexProps) {
 
   useEffect(() => {
     if (!showWorksTable) return;
-    const el = indexBandRef.current;
+    const el = worksIndexBandRef.current;
     if (!el) return;
-    const update = () => setIndexBandHeight(el.offsetHeight);
+
+    const update = () => setWorksIndexBandHeight(el.offsetHeight);
     update();
+
     const observer = new ResizeObserver(update);
     observer.observe(el);
     return () => observer.disconnect();
-  }, [showWorksTable]);
+  }, [showWorksTable, worksStudioImages]);
 
   useEffect(() => {
     if (!detailWork) return;
@@ -430,24 +311,77 @@ function Index({ showWorksTable = false }: IndexProps) {
         </div>
       )}
 
-      {/* Header — home: E2b centered; works: index band + photos matched to Home→Projects height */}
+      {/* Header — home: centered block; works: index + photos aligned to index height */}
       {showWorksTable ? (
-        <div className="px-4 sm:px-6 py-6 overflow-x-clip">
+        <div className="px-4 sm:px-6 pt-6 pb-4 overflow-x-clip">
           <h1 className="text-sm font-normal mb-4">Adam Cutts</h1>
           <div className="grid grid-cols-[auto_1fr] gap-3 sm:gap-8 items-start min-w-0">
-            <div ref={indexBandRef} className="shrink-0">
-              <div className="space-y-4">
-                <Link
-                  to="/"
-                  className="hover:underline text-blue-600 visited:text-purple-600 text-sm"
-                >
-                  Home
-                </Link>
-                <p className="text-sm">adamcutts . a @ gmail.com</p>
+            <div className="shrink-0">
+              <div ref={worksIndexBandRef}>
+                <div className="space-y-4">
+                  <Link
+                    to="/"
+                    className="hover:underline text-blue-600 visited:text-purple-600 text-sm"
+                  >
+                    Home
+                  </Link>
+                  <p className="text-sm">adamcutts . a @ gmail.com</p>
+                </div>
+                <nav className="mt-6">
+                  <ul className="space-y-2 text-sm">
+                    <li><span>Works</span></li>
+                    <li>
+                      <Link
+                        to="/studio"
+                        className="hover:underline text-blue-600 visited:text-purple-600"
+                      >
+                        Studio
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/projects"
+                        className="hover:underline text-blue-600 visited:text-purple-600"
+                      >
+                        Projects
+                      </Link>
+                    </li>
+                  </ul>
+                </nav>
               </div>
+            </div>
+            <StudioThumbStrip
+              images={worksStudioImages}
+              gapClassName="gap-1.5 sm:gap-3"
+              heightPx={worksIndexBandHeight}
+            />
+          </div>
+        </div>
+      ) : (
+        <main className="flex-1 flex items-center justify-center px-4 sm:px-6">
+          <div className="max-w-[420px] w-full text-center">
+            <div className="flex flex-col items-center gap-3 text-sm">
+              <h1 className="text-sm font-normal">Adam Cutts</h1>
+              <Link
+                to="/"
+                className="hover:underline text-blue-600 visited:text-purple-600"
+              >
+                Home
+              </Link>
+              <p>adamcutts . a @ gmail.com</p>
+            </div>
+            <div className="mt-8">
+              <StudioThumbStrip images={homeStudioImages} />
               <nav className="mt-6">
-                <ul className="space-y-2 text-sm">
-                  <li><span>Works</span></li>
+                <ul className="space-y-2 text-sm text-center">
+                  <li>
+                    <Link
+                      to="/works"
+                      className="hover:underline text-blue-600 visited:text-purple-600"
+                    >
+                      Works
+                    </Link>
+                  </li>
                   <li>
                     <Link
                       to="/studio"
@@ -467,90 +401,13 @@ function Index({ showWorksTable = false }: IndexProps) {
                 </ul>
               </nav>
             </div>
-            <div
-              className="flex justify-center items-stretch gap-1.5 sm:gap-3 min-w-0 overflow-hidden"
-              style={indexBandHeight > 0 ? { height: indexBandHeight } : undefined}
-            >
-              {worksStudioImages.map((img, idx) => (
-                <div
-                  key={`${img}-${idx}`}
-                  className="flex items-center justify-center min-w-0 flex-1 basis-0 max-w-[100px]"
-                  style={
-                    indexBandHeight > 0 ? { height: indexBandHeight } : undefined
-                  }
-                >
-                  <img
-                    src={img}
-                    alt={`Studio photo ${idx + 1}`}
-                    className="block max-h-full max-w-full object-contain"
-                  />
-                </div>
-              ))}
-            </div>
           </div>
-        </div>
-      ) : (
-        <div className="max-w-[420px] mx-auto px-4 sm:px-6 py-12 text-center">
-          <div className="flex flex-col items-center gap-3 text-sm">
-            <h1 className="text-sm font-normal">Adam Cutts</h1>
-            <Link
-              to="/"
-              className="hover:underline text-blue-600 visited:text-purple-600"
-            >
-              Home
-            </Link>
-            <p>adamcutts . a @ gmail.com</p>
-          </div>
-          <div className="mt-8">
-            <div className="flex gap-4 items-end justify-center flex-wrap">
-              {homeStudioImages.map((img, idx) => (
-                <div
-                  key={`${img}-${idx}`}
-                  className="flex items-end justify-center h-[110px] w-[100px] shrink-0"
-                >
-                  <img
-                    src={img}
-                    alt={`Studio photo ${idx + 1}`}
-                    className="block max-h-full max-w-full object-contain"
-                  />
-                </div>
-              ))}
-            </div>
-            <nav className="mt-6">
-              <ul className="space-y-2 text-sm text-center">
-                <li>
-                  <Link
-                    to="/works"
-                    className="hover:underline text-blue-600 visited:text-purple-600"
-                  >
-                    Works
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/studio"
-                    className="hover:underline text-blue-600 visited:text-purple-600"
-                  >
-                    Studio
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/projects"
-                    className="hover:underline text-blue-600 visited:text-purple-600"
-                  >
-                    Projects
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
+        </main>
       )}
 
       {/* Works — W4 + W4f hybrid: year + title left, single uncropped image */}
       {showWorksTable && (
-        <div className="px-4 sm:px-6 pb-8 mt-8 overflow-x-clip">
+        <div className="px-4 sm:px-6 pb-8 mt-14 sm:mt-16 overflow-x-clip">
           <div className="grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2 sm:gap-2.5">
             {artworks.map((work) => {
               const heroImage = work.images?.[0];
@@ -604,7 +461,7 @@ function Index({ showWorksTable = false }: IndexProps) {
         className={
           showWorksTable
             ? "max-w-2xl px-4 sm:px-6 pb-6 mt-auto"
-            : "max-w-[420px] mx-auto px-4 sm:px-6 pb-6 mt-auto text-center"
+            : "max-w-[420px] mx-auto px-4 sm:px-6 pb-6 text-center shrink-0"
         }
       >
         <footer className="pt-6 border-t border-gray-300">

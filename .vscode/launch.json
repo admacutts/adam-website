@@ -2,19 +2,35 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Mobile Preview",
-      "type": "chrome",
+      "name": "Simple Browser: Desktop",
+      "type": "vscode",
       "request": "launch",
-      "url": "http://localhost:5173/preview-mobile.html",
-      "webRoot": "${workspaceFolder}",
+      "command": "simpleBrowser.show",
+      "args": ["http://localhost:5173"],
       "preLaunchTask": "dev"
     },
     {
-      "name": "Desktop Preview",
+      "name": "Simple Browser: Mobile",
+      "type": "vscode",
+      "request": "launch",
+      "command": "simpleBrowser.show",
+      "args": ["http://localhost:5173/preview-mobile.html"],
+      "preLaunchTask": "dev"
+    },
+    {
+      "name": "Chrome: Desktop",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:5173",
       "webRoot": "${workspaceFolder}/src",
+      "preLaunchTask": "dev"
+    },
+    {
+      "name": "Chrome: Mobile",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173/preview-mobile.html",
+      "webRoot": "${workspaceFolder}",
       "preLaunchTask": "dev"
     }
   ]

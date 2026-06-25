@@ -10,6 +10,9 @@ lerna-debug.log*
 node_modules
 dist
 
+# Local reference images — not served by the site
+src/assets/works/ARCHIVE IMAGES/
+
 # Source videos belong in Vimeo / external storage — GitHub rejects >100MB files.
 *.m4v
 *.mov

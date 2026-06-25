@@ -88,6 +88,16 @@ import studio87 from '../assets/studio/studio87.jpg';
 import studio88 from '../assets/studio/studio88.jpg';
 import studio89 from '../assets/studio/studio89.jpg';
 import studio90 from '../assets/studio/studio90.jpg';
+import studio91 from '../assets/studio/studio91.jpg';
+import studio92 from '../assets/studio/studio92.jpg';
+import studio93 from '../assets/studio/studio93.jpg';
+import studio94 from '../assets/studio/studio94.jpg';
+import studio95 from '../assets/studio/studio95.jpg';
+import studio96 from '../assets/studio/studio96.jpg';
+import studio97 from '../assets/studio/studio97.jpg';
+import studio98 from '../assets/studio/studio98.jpg';
+import studio99 from '../assets/studio/studio99.jpg';
+import studio100 from '../assets/studio/studio100.jpg';
 
 
 const studioItems = [
@@ -111,7 +121,7 @@ const studioItems = [
     content: {
       type: "photos",
       description: "",
-      images: [studio90, studio89, studio88, studio87, studio86, studio85, studio84, studio83, studio82, studio81, studio80, studio79, studio78, studio77, studio76, studio75, studio74, studio73, studio72, studio71, studio70, studio69, studio68, studio67, studio66, studio65, studio64, studio63, studio62, studio61, studio60, studio59, studio58, studio57, studio56, studio55, studio54, studio53, studio52, studio51, studio50, studio49, studio48, studio47, studio46, studio45, studio44, studio43, studio42, studio41, studio40, studio39, studio38, studio37, studio36, studio35, studio34, studio33, studio32, studio31, studio30, studio29, studio28, studio26, studio27, studio23, studio22, studio21, studio20, studio19, studio18, studio17, studio16, studio15, studio14, studio13, studio12, studio11, studio10, studio9, studio8, studio7, studio6, studio5, studio4, studio3, studio2, studio1]
+      images: [studio100, studio99, studio98, studio97, studio96, studio95, studio94, studio93, studio92, studio91, studio90, studio89, studio88, studio87, studio86, studio85, studio84, studio83, studio82, studio81, studio80, studio79, studio78, studio77, studio76, studio75, studio74, studio73, studio72, studio71, studio70, studio69, studio68, studio67, studio66, studio65, studio64, studio63, studio62, studio61, studio60, studio59, studio58, studio57, studio56, studio55, studio54, studio53, studio52, studio51, studio50, studio49, studio48, studio47, studio46, studio45, studio44, studio43, studio42, studio41, studio40, studio39, studio38, studio37, studio36, studio35, studio34, studio33, studio32, studio31, studio30, studio29, studio28, studio26, studio27, studio23, studio22, studio21, studio20, studio19, studio18, studio17, studio16, studio15, studio14, studio13, studio12, studio11, studio10, studio9, studio8, studio7, studio6, studio5, studio4, studio3, studio2, studio1]
     }
   },
   {

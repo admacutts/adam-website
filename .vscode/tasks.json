@@ -22,6 +22,36 @@
         "panel": "dedicated",
         "focus": false
       }
+    },
+    {
+      "label": "open-preview-browser",
+      "type": "vscode",
+      "command": "simpleBrowser.show",
+      "args": ["http://localhost:5173"],
+      "problemMatcher": []
+    },
+    {
+      "label": "open-mobile-preview-browser",
+      "type": "vscode",
+      "command": "simpleBrowser.show",
+      "args": ["http://localhost:5173/preview-mobile.html"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Preview",
+      "dependsOn": ["dev", "open-preview-browser"],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Mobile Preview",
+      "dependsOn": ["dev", "open-mobile-preview-browser"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
     }
   ]
 }
