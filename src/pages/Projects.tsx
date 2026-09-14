@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import GalleryImageViewer from "../components/GalleryImageViewer";
 import incidentalProjectionVimeoThumb2 from "../assets/projects/2022_2_RESEARCH_Incidental Projection/THUMBNAIL FOR VIDEO LINK 2.jpg";
 
 type ProjectVimeoClip = {
@@ -365,8 +366,8 @@ function Projects() {
           role="presentation"
         >
           <div
-            className={`relative w-full max-h-[90vh] overflow-y-auto rounded-sm border border-gray-200 bg-white shadow-lg text-left ${
-              modal.kind === "vimeo" ? "max-w-3xl" : "max-w-xl"
+            className={`relative w-full max-h-[95vh] overflow-y-auto rounded-sm border border-gray-200 bg-white shadow-lg text-left ${
+              modal.kind === "vimeo" ? "max-w-3xl" : "max-w-[min(96vw,1200px)]"
             }`}
             onClick={(e) => e.stopPropagation()}
             role="dialog"
@@ -405,13 +406,10 @@ function Projects() {
 
                 {detailSrc ? (
                   <div className="space-y-3">
-                    <div className="flex items-center justify-center min-h-[200px] bg-gray-50 border border-gray-100 rounded-sm p-2">
-                      <img
-                        src={detailSrc}
-                        alt={`${galleryProject.title} — ${galleryImageIndex + 1} of ${detailImages.length}`}
-                        className="max-h-[min(52vh,520px)] w-full object-contain"
-                      />
-                    </div>
+                    <GalleryImageViewer
+                      src={detailSrc}
+                      alt={`${galleryProject.title} — ${galleryImageIndex + 1} of ${detailImages.length}`}
+                    />
 
                     {detailImages.length > 1 ? (
                       <div className="flex items-center justify-center gap-4 text-sm">

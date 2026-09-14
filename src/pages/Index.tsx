@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import GalleryImageViewer from "../components/GalleryImageViewer";
 import { artworks, type Artwork } from "../lib/works";
 // Import studio images for random display
 import studio1 from '../assets/studio/studio1.jpg';
@@ -232,7 +233,7 @@ function Index({ showWorksTable = false }: IndexProps) {
           role="presentation"
         >
           <div
-            className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-sm border border-gray-200 bg-white shadow-lg text-left"
+            className="relative w-full max-w-[min(96vw,1200px)] max-h-[95vh] overflow-y-auto rounded-sm border border-gray-200 bg-white shadow-lg text-left"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
@@ -262,13 +263,11 @@ function Index({ showWorksTable = false }: IndexProps) {
 
               {detailSrc ? (
                 <div className="space-y-3">
-                  <div className="flex items-center justify-center min-h-[200px] bg-gray-50 border border-gray-100 rounded-sm p-2">
-                    <img
-                      src={detailSrc}
-                      alt={`${detailWork.title} — ${detailImageIndex + 1} of ${detailImages.length}`}
-                      className="max-h-[min(52vh,520px)] w-full object-contain"
-                    />
-                  </div>
+                  <GalleryImageViewer
+                    src={detailSrc}
+                    alt={`${detailWork.title} — ${detailImageIndex + 1} of ${detailImages.length}`}
+                    viewportClassName="h-[min(80vh,900px)]"
+                  />
                   {detailImages.length > 1 ? (
                     <div className="flex items-center justify-center gap-4 text-sm">
                       <button
